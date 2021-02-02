@@ -175,7 +175,7 @@
 
     });
 
-    /* edit user details */
+    /* edit user details using user_id */
     $app->put( '/user/{user_id}', function ( Request $request, Response $response ) {
         $form_data = $request->getParsedBody();
         $user_id = $request->getAttribute( 'user_id' );
@@ -196,6 +196,89 @@
         } else {
             $errors['last_name'] = 'Enter user\'s last name.';
         }
+
+        if ( !empty( $form_data['username'] ) && ( $form_data['username'] !== "" ) ) {
+            if ( !Validator::validate_username( $form_data['username'] ) ) {
+                $errors['username'] = 'User\'s username must have between 8 and 12 alpha-numeric characters.';
+            }
+        } else {
+            $errors['username'] = 'Enter the user\'s username,';
+        }
+
+        if ( !empty( $form_data['email'] ) && ( $form_data['email'] !== "" ) ) {
+            if ( !filter_var( $form_data['email'], FILTER_VALIDATE_EMAIL ) ) {
+                $errors['email'] = 'User\'s email address is not valid.';
+            }
+        } else {
+            $errors['email'] = 'Enter user\'s email address.';
+        }
+
+        if ( empty( $errors ) ) {
+
+            $user_details = [
+                'username'  => trim( strtolower( $form_data['username'] ) ),
+                'email'     => strtolower( trim( $form_data['email'] ) ),
+                'first_name'=> trim( ucwords( $form_data['first_name'] ) ),
+                'last_name' => ucwords( trim( $form_data['last_name'] ) )
+            ];
+
+            $user = new User;
+
+            if ( $user->update( $user_id, $user_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'User details successfully updated.'
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'User details could not be updated. Try again later.'
+                    ]
+                ];
+            }
+        } else {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* update user password using user_id */
+    $app->put( '/user_password/{user_id}', function ( Request $request, Response $response ) {
+        $form_data = $request->getParsedBody();
+        $user_details = $data = $errors = [];
+        $user_id = $request->getAttribute( 'user_id' );
+
+        if ( !empty( $form_data['current'] ) && ( $form_data['current'] !== "" ) ) {
+            $current = trim( $form_data['current'] );
+        } else {
+            $errors['current'] = 'Enter your current password.';
+        }
+
+        if ( !empty( $form_data['password'] ) && ( $form_data['password'] !== "" ) ) {
+            if ( !empty( $form_data['confirm'] ) && ( $form_data['confirm'] !== "" ) ) {
+                if ( $form_data['confirm'] !== $form_data['password'] ) {
+                    $errors['password'] = 'New passwords do not match.';
+                } else {
+                    if ( Hash::validate_password( $form_data['confirm'] ) ) {
+                        $user_details['user_pass'] = trim( Hash::hash_password( $form_data['confirm'] ) );
+                    } else {
+                        $errors['password'] = 'New password not strong enough. Include capital letters, digits and special characters.';
+                    }
+                }
+            } else {
+                $errors['confirm'] = 'Confirm your new password.';
+            }
+        } else {
+            $errors['password'] = 'Enter your new password.';
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
 
     });
 
