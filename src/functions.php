@@ -28,3 +28,21 @@
         return $contents;
 
     }
+
+    /**
+     * @param float $amount
+     * @return float|int
+     */
+    function convert_amount_to_cents( float $amount ) {
+        $amount = preg_replace( '/\,/i', '', $amount );
+        $amount = preg_replace('/([^0-9\.\-])/i', '', $amount );
+
+        if ( !is_numeric( $amount ) ) {
+            return 0.00;
+        }
+
+        $amount = ( float )$amount;
+
+        return round( $amount , 2 ) * 100;
+
+    }
