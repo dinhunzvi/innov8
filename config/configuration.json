@@ -1,0 +1,33 @@
+{
+  "database"    : {
+    "database"    : "innov8_bookshop",
+    "username"    : "bookseller",
+    "password"    : "q47mWxsXJdFnAygd",
+    "charset"     : "latin1",
+    "server"      : "127.0.0.1"
+  },
+  "admin_session"     : "innov8_user",
+  "customer_session"  : "innov8_customer",
+  "cart_session"      : "innov8_cart",
+  "database_options"  : {
+    "PDO::ATTR_EMULATE_PREPARES"    : false,
+    "PDO::ATTR_ERRMODE"             : "PDO::ERRMODE_EXCEPTION",
+    "PDO::ATTR_PERSISTENT"          : true
+  },
+  "salt_options"     : {
+    "memory_cost"   : 2048,
+    "threads"       : 3,
+    "time_cost"     :  4
+  },
+  "email_settings" : {
+    "username"    : "support@dnptransport.com",
+    "password"    : "blacKW@_8r86",
+    "server"      : "mail.dnptransport.com",
+    "sender"      : "Catholic University of Zimbabwe LMS Support",
+    "smtp_port"   : 465
+  },
+  "sms_settings"  : {
+    "username"    : "Rejoice",
+    "token"       : "aa56be7abaa299353e3db8d736bb21f2"
+  }
+}

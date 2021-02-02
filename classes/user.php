@@ -83,8 +83,8 @@
          * @return mixed
          */
         public function get_users() {
-            $sql = 'select user_id, email, username, first_name, last_name, active, date_created from ' .
-                $this->_table_name . ' order by first_name, last_name';
+            $sql = 'select user_id, email, username, first_name, last_name, deleted from ' . $this->_table_name .
+                ' order by first_name, last_name';
 
             return $this->_db->query( $sql )->results();
             
