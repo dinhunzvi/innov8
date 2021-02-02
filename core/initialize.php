@@ -7,7 +7,7 @@
 
     /** define the base directory */
     defined( 'BASE_DIR' ) ? null : define( 'BASE_DIR', 'C:' . DS . 'xampp' . DS . 'htdocs' . DS .
-        'innov8' );
+        'innov8' . DS );
 
-
+    defined( 'CLASSES_DIR' ) ? null : define( 'CLASSES_DIR', BASE_DIR . 'classes' . DS );
 
