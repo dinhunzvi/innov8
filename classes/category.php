@@ -1,5 +1,5 @@
 <?php
-    /**
+    /*
      * Class Category
      * category.php
      */

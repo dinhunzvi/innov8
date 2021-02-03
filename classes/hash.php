@@ -1,5 +1,5 @@
 <?php
-    /**
+    /*
      * Class Hash
      * hash.php
      */

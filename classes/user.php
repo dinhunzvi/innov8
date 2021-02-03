@@ -1,5 +1,5 @@
 <?php
-    /**
+    /*
      * Class User
      * user.php
      */

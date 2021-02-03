@@ -1,5 +1,5 @@
 <?php
-    /**
+    /*
     * Class Validator
     * validator.php
     */
@@ -30,6 +30,18 @@
          */
         public static function validate_mobile ( string $mobile ) {
             return preg_match( '/2637[13478][0-9]{7}$/i', $mobile );
+        }
+
+        /**
+         * @param string $category_name
+         * @return false|int
+         */
+        public static function validate_category_name( string $category_name ){
+            return preg_match( '/^[A-Z \'.-]{5,100}$/i', $category_name );
+        }
+
+        public static function validate_book_title( string $book_title ) {
+            return preg_match( '/^[A-Z \'.-]{5,100}$/i', $category_name );
         }
 
     }

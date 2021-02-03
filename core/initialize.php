@@ -85,3 +85,16 @@
 
     /* set the Stripe secret key as the Stripe API key */
     Stripe::setApiKey( STRIPE_SECRET_KEY );
+
+    $price_options = [
+        'options'   => [
+            'min_range'     => 0.99,
+            'max_range'     => 10000.00
+        ]
+    ];
+
+    $quantity_options = [
+        'options'   => [
+            'min_range'     => 1
+        ]
+    ];

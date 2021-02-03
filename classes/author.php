@@ -1,5 +1,5 @@
 <?php
-    /**
+    /*
      * Class Author
      * author.php
      */
@@ -46,6 +46,13 @@
         public function get_authors() {
             $sql = 'select author_id, author_name, deleted, created_user from ' . $this->_view_name .
                 ' order by author_name';
+
+            return $this->_db->query( $sql )->results();
+
+        }
+
+        public function get_active_authors() {
+            $sql = "select author_name, author_id from " . $this->_view_name . " where deleted = 'no'";
 
             return $this->_db->query( $sql )->results();
 

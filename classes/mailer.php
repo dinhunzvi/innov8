@@ -1,5 +1,5 @@
 <?php
-    /**
+    /*
      * Class Mailer
      * mailer.php
      */

@@ -1,5 +1,5 @@
 <?php
-    /**
+    /*
      * Class Config
      * config.php
      */

@@ -282,6 +282,490 @@
 
     });
 
+    /* delete a user using user_id */
+    $app->put( '/delete_user/{user_id}', function ( Request $request, Response $response ) {
+        $user_id = $request->getAttribute( 'user_id' );
+        $user_details = $data = [];
+
+        $user = new User();
+
+        $user_details['deleted'] = 'yes';
+
+        if ( $user->update( $user_id, $user_details ) ) {
+            $data = [
+                'success'   => true,
+                'message'   => 'User successfully deleted.'
+            ];
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'User could not be deleted. Try again later.'
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* restore a user using user_id */
+    $app->put( '/restore_user/{user_id}', function ( Request $request, Response $response ) {
+        $user_details = $data = [];
+        $user_id = $request->getAttribute( 'user_id' );
+
+        $user_details['deleted'] = 'no';
+
+        $user = new User;
+
+        if ( $user->update( $user_id, $user_details ) ) {
+            $data = [
+                'success'   => true,
+                'message'   => 'User has been restored.'
+            ];
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'User could not be restored. Try again later.'
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /** routes for categories come here */
+
+    /* get all book categories */
+    $app->get( '/categories', function ( Request $request, Response $response ) {
+        $category = new Category();
+
+        return $response->getBody()->write( json_encode( $category->get_categories() ) );
+
+    });
+
+    /* get active book categories */
+    $app->get( '/active_categories', function ( Request $request, Response $response ) {
+        $category = new Category();
+
+        return $response->getBody()->write( json_encode( $category->get_active_categories() ) );
+
+    });
+
+    /* get one book category using category_id */
+    $app->get( '/categories/{category_id}', function ( Request $request, Response $response ) {
+        $category = new Category();
+        $category_id = $request->getAttribute( 'category_id' );
+
+        return $response->getBody()->write( json_encode( $category->get_category( $category_id ) ) );
+
+    });
+
+    /* add a new book category */
+    $app->post( '/category', function ( Request $request, Response $response ) {
+        $form_data = $request->getParsedBody();
+        $category_details = $data = $errors = [];
+
+        if ( !isset( $form_data['category_name'] ) || ( $form_data['category_name'] === "" ) ) {
+            $errors['category_name'] = 'Enter book category\'s name.';
+        } else {
+            if ( !Validator::validate_category_name( $form_data['category_name'] ) ) {
+                $errors['category_name'] = 'Book\'s category name must have between 5 and 100 letters and spaces only.';
+            }
+        }
+
+        if ( !empty( $errors ) ) {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        } else {
+
+            $category_details = [
+                'user'          => ( int )trim( $form_data['user'] ),
+                'category_name' => trim( ucwords( $form_data['category_name'] ) )
+            ];
+
+            $category = new Category();
+
+            if ( $category->insert( $category_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'Book category details successfully saved.'
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Book category details could not be saved. Try again later.'
+                    ]
+                ];
+            }
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* update a book category details using category_id */
+    $app->put( '/category/{category_id}', function ( Request $request, Response $response ) {
+        $category_id = ( int )$request->getAttribute( 'category_id' );
+        $form_data = $request->getParsedBody();
+        $category_details = $data = $errors = [];
+
+        if ( !empty( $form_data['category_name'] ) && ( $form_data['category_name'] !== "" ) ) {
+            if ( !Validator::validate_category_name( $form_data['category_name'] ) ) {
+                $errors['category_name'] = 'Book category\'s name must have between 5 and 100 letters and spaces only.';
+            }
+        } else {
+            $errors['category_name'] = 'Enter the book category\'s name.';
+        }
+
+        if ( empty( $errors ) ) {
+
+            $category = new Category();
+
+            if ( $category->update( $category_id, $category_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'Book category details updated.'
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Book category details could not be updated. Try again later.'
+                    ]
+                ];
+            }
+        } else {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* delete a book category using category_id */
+    $app->put( '/delete_category/{category_id}', function ( Request $request, Response $response ) {
+        $category_details = $data = [];
+        $category_id = $request->getAttribute( 'category_id' );
+
+        $category_details['deleted'] = 'yes';
+
+        $category = new Category();
+
+        if ( $category->update( $category_id, $category_details ) ) {
+            $data = [
+                'success'   => true,
+                'message'   => 'Book category successfully deleted.'
+            ];
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'Book category could not be deleted. Try again later.'
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* restore a book category using category_id */
+    $app->put( '/restore_category/{category_id}', function ( Request $request, Response $response ) {
+        $category_details = $data = [];
+        $category_id = $request->getAttribute( 'category_id' );
+
+        $category_details['deleted'] = 'no';
+
+        $category = new Category();
+
+        if ( $category->update( $category_id, $category_details ) ) {
+            $data = [
+                'success'   => true,
+                'message'   => 'Book category successfully restored.'
+            ];
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'Book category could not be restored. Try again later.'
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* routes for authors come here */
+
+    /* get all authors */
+    $app->get( '/authors', function ( Request $request, Response $response ) {
+        $author = new Author();
+
+        return $response->getBody()->write( json_encode( $author->get_authors() ) );
+
+    });
+
+    /* get active authors */
+    $app->get( '/active_authors', function ( Request $request, Response $response ) {
+        $author = new Author();
+
+        return $response->getBody()->write( json_encode( $author->get_active_authors() ) );
+
+    });
+
+    /* get an author using author_id */
+    $app->get( '/authors/{author_id}', function ( Request $request, Response $response ) {
+        $form_data = $request->getParsedBody();
+        $author_details = $data = $errors = [];
+
+        if ( !isset( $form_data['first_name'] ) || ( $form_data['first_name'] === "" ) ) {
+            $errors['first_name'] = 'Enter author\'s first name.';
+        } else {
+            if ( !Validator::validate_name( $form_data['first_name'] ) ) {
+                $errors['first_name'] = 'Author\'s first name must have between 3 and 50 letters and spaces only.';
+            }
+        }
+
+        if ( !isset( $form_data['last_name'] ) || ( $form_data['last_name'] === "" ) ) {
+            $errors['last_name'] = 'Enter author\'s last name.';
+        } else {
+            if ( !Validator::validate_name( $form_data['last_name'] ) ) {
+                $errors['last_name'] = 'Author\'s last name must have between 3 and 50 letters and spaces only.';
+            }
+        }
+
+        if ( !empty( $errors ) ) {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        } else {
+
+            $author_details = [
+                'user'      => ( int )trim( $form_data['user'] ),
+                'first_name'=> trim( ucwords( $form_data['first_name'] ) ),
+                'last_name' => trim( ucwords( $form_data['last_name'] ) )
+            ];
+
+            $author = new Author();
+
+            if ( $author->insert( $author_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'Author details successfully saved.'
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Author details could not be saved. Try again later.'
+                    ]
+                ];
+            }
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* update an author's details using author_id */
+    $app->put( '/author/{author_id}', function ( Request $request, Response $response ) {
+        $form_data = $request->getParsedBody();
+        $author_id = $request->getAttribute( 'author_id' );
+        $author_details = $data = $errors = [];
+
+        if ( !empty( $form_data['first_name'] ) && ( $form_data['first_name'] !== "" ) ) {
+            if ( !Validator::validate_name( $form_data['first_name'] ) ) {
+                $errors['first_name'] = 'Author\'s first name must have between 3 and 50 letters and spaces only.';
+            }
+        } else {
+            $errors['first_name'] = 'Enter author\'s first name.';
+        }
+
+        if ( !empty( $form_data['last_name'] ) && ( $form_data['last_name'] !== "" ) ) {
+            if ( !Validator::validate_name( $form_data['last_name'] ) ) {
+                $errors['last_name'] = 'Author\'s last name must have between 3 and 50 letters and spaces only.';
+            }
+        } else {
+            $errors['last_name'] = 'Enter author\'s last name.';
+        }
+
+        if ( empty( $errors ) ) {
+
+            $author = new Author();
+
+            if ( $author->update( $author_id, $author_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'Author details successfully updated.'
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Author details could not be updated. Try again later.'
+                    ]
+                ];
+            }
+        } else {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* delete an author using author_id */
+    $app->put( '/delete_author/{author_id}', function ( Request $request, Response $response ) {
+        $author_id = $request->getAttribute( 'author_id' );
+        $author_details = $data = [];
+
+        $author_details['deleted'] = 'yes';
+
+        $author = new Author();
+
+        if ( $author->update( $author_id, $author_details ) ) {
+            $data = [
+                'success'   => true,
+                'message'   => 'Author successfully deleted.'
+            ];
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'Author could not be deleted. Try again later.'
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* restore an author using author_id */
+    $app->put( '/restore_author/{author_id}', function ( Request $request, Response $response ) {
+        $author_details = $data = [];
+        $author_id = $request->getAttribute( 'author_id' );
+
+        $author_details['deleted'] = 'no';
+
+        $author = new Author();
+
+        if ( $author->update( $author_id, $author_details ) ) {
+            $data = [
+                'success'   => true,
+                'message'   => 'Author successfully restored.'
+            ];
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'Author could not be restored. Try again later.'
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* routes for books come here */
+
+    /* get all books */
+    $app->get( '/books', function ( Request $request, Response $response ) {
+        $book = new Book();
+
+        return $response->getBody()->write( json_encode( $book->get_books() ) );
+
+    });
+
+    /* get newest books */
+    $app->get( '/latest_books', function ( Request $request, Response $response ) {
+        $book = new Book;
+
+        return $response->getBody()->write( json_encode( $book->get_latest_books() ) );
+
+    });
+
+    /* get books by author using author_id */
+    $app->get( '/author_books/{author_id}', function ( Request $request, Response $response ) {
+        $book = new Book();
+
+        $author_id = $request->getAttribute( 'author_id' );
+
+        return $response->getBody()->write( json_encode( $book->get_author_books( $author_id ) ) );
+
+    });
+
+    /* get category books using category_id */
+    $app->get( '/category_books/{category_id}', function ( Request $request, Response $response ) {
+        $category_id = $request->getAttribute( 'category_id' );
+        $book = new Book();
+
+        return $response->getBody()->write( json_encode( $book->get_category_books( $category_id ) ) );
+
+    });
+
+    /* get one book using book_id */
+    $app->get( '/books/{book_id}', function ( Request $request, Response $response ) {
+        $book = new Book();
+        $book_id = $request->getAttribute( 'book_id' );
+
+        return $response->getBody()->write( json_encode( $book->get_book( $book_id ) ) );
+
+    });
+
+    /* add a new book */
+    $app->post( '/book', function ( Request $request, Response $response )
+        use ( $price_options, $quantity_options, $cover_extensions, $upload_errors ) {
+        $form_data = $request->getParsedBody();
+        $book_details = $data = $errors = [];
+
+        if ( !isset( $form_data['author'] ) || ( $form_data['author'] === "" ) ) {
+            $errors['author'] = 'Select the book\'s author.';
+        }
+
+        if ( !isset( $form_data['category'] ) || ( $form_data['category'] === "" ) ) {
+            $errors['category'] = 'Select the book\'s category.';
+        }
+
+        if ( !isset( $form_data['title'] ) || ( $form_data['title'] === "" ) ) {
+            $errors['title'] = 'Enter the book\'s title.';
+        } else {
+            if ( !Validator::validate_book_title( $form_data['title'] ) ) {
+                $errors['title'] = 'Book\'s title must have between 5 and 100 alpha-numeric characters and spaces only.';
+            }
+        }
+
+        if ( !isset( $form_data['synopsis'] ) || ( $form_data['synopsis'] === "" ) ) {
+            $errors['synopsis'] = 'Enter the book\'s synopsis.';
+        }
+
+        if ( !isset( $form_data['price'] ) || ( $form_data['price'] === "" ) ) {
+            $errors['price'] = 'Enter the books\'s price.';
+        } else {
+            if ( !filter_var( $form_data['price'], FILTER_VALIDATE_FLOAT, $price_options ) ) {
+                $errors['price'] = 'Book\'s price must be between $0.99 and $1000.00.';
+            }
+        }
+
+        if ( !isset( $form_data['quantity'] ) || ( $form_data['quantity'] === "" ) ) {
+            $errors['quantity'] = 'Enter the book\'s quantity in stock.';
+        } else {
+            if ( !filter_var( $form_data['quantity'], FILTER_VALIDATE_INT, $quantity_options ) ) {
+                $errors['quantity'] = 'There must be at least one copy of the book in stock.';
+            }
+        }
+
+        if ( !empty( $_FILES['book_cover']['name'] ) && isset( $_FILES['book_cover']['name'] ) ) {
+
+        } else {
+            $errors['book_cover'] = = 'Select the book\'s cover.';
+        }
+
+    });
+
     try {
         $app->run();
     } catch (Throwable $e) {
