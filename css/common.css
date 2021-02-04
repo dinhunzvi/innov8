@@ -1,0 +1,28 @@
+/*=================================================
+                  Forms and buttons
+ =================================================*/
+form input.form-control {
+    font-family: "Open Sans", sans-serif;
+    padding: 10px 15px;
+    font-size: 12px;
+    line-height: 24px;
+}
+
+form textarea.form-control {
+    min-height: 164px;
+}
+
+.btn-default, .btn-default:hover, .btn-default:focus {
+    background: #030341;
+    color: #ffffff;
+    padding: 8px;
+    border: solid 1px #030341;
+}
+
+/*=================================================
+                    Sections
+ =================================================*/
+section {
+    margin-top: 40px;
+    overflow: hidden;
+}

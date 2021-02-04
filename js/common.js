@@ -44,3 +44,21 @@
         return vars;
 
     }
+
+    function get_user_details() {
+        if ( localStorage.getItem( admin_session_name ) !== null ) {
+            $.ajax({
+                dataType    : 'json',
+                error       : function ( xhr, type ) {
+                    console.log( xhr, type );
+                }, method   : 'GET',
+                success     : function ( user ) {
+                    let administrator = user.first_name + ' ' + user.last_name;
+
+                    $( '#administrator_name' ).append( administrator );
+
+                }, url      : admin_url + 'users/' + localStorage.getItem( admin_session_name )
+            });
+
+        }
+    }

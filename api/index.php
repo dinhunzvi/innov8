@@ -1,6 +1,7 @@
 <?php
     require_once './../core/initialize.php';
 
+    use Foundationphp\ImageHandling\Scale;
     use Psr\Http\Message\ServerRequestInterface as Request;
     use Psr\Http\Message\ResponseInterface as Response;
     use Slim\App;
@@ -276,6 +277,38 @@
             }
         } else {
             $errors['password'] = 'Enter your new password.';
+        }
+
+        if ( empty( $errors ) ) {
+            $user = new User( $user_id );
+
+            if ( Hash::verify_password( $current, $user->data()->user_pass ) ) {
+                if ( $user->update( $user_id, $user_details ) ) {
+                    $data = [
+                        'success'   => true,
+                        'message'   => 'You have successfully changed your password.'
+                    ];
+                } else {
+                    $data = [
+                        'success'   => false,
+                        'errors'    => [
+                            'database'  => 'Your password could not be changed. Try again later.'
+                        ]
+                    ];
+                }
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'current'   => 'Your current password is incorrect.'
+                    ]
+                ];
+            }
+        } else {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
         }
 
         return $response->getBody()->write( json_encode( $data ) );
@@ -759,12 +792,96 @@
         }
 
         if ( !empty( $_FILES['book_cover']['name'] ) && isset( $_FILES['book_cover']['name'] ) ) {
+            $uploaded_cover = $_FILES['book_cover'];
 
+            $book_cover = pathinfo( $uploaded_cover['name'] );
+
+            /* assign extension of uploaded book cover to $book_cover_extension */
+            $book_cover_extension = trim( strtolower( $book_cover['extension'] ) );
+            /* assign size of uploaded book cover to $book_cover_size */
+            $book_cover_size = $uploaded_cover['size'];
+            /* assign temporary location of uploaded file to $book_cover_tmp_name */
+            $book_cover_tmp_name = $uploaded_cover['tmp_name'];
+            /* assign upload error of uploaded book cover to $book_cover_upload_error */
+            $book_cover_upload_error = $uploaded_cover['error'];
+
+            /* book cover has a valid file extension */
+            if ( in_array( $book_cover_extension, $cover_extensions ) ) {
+                if ( $book_cover_size > MAX_FILE_SIZE ) {
+                    $errors['book_cover'] = 'Book cover file must not be greater than ' .
+                        ( MAX_FILE_SIZE / 1048576 ) . 'mb in size.';
+                } else {
+                    if ( $book_cover_upload_error !== 0 ) {
+                        $errors['book_cover'] = $upload_errors[$book_cover_upload_error];
+                    } else {
+                        $book_cover_name = ( $book_cover_extension === 'jpg' ) ?
+                            strtolower( Hash::random_string( 56 ) ) . ".{$book_cover_extension}" :
+                            strtolower( Hash::random_string( 55 ) ) . ".{$book_cover_extension}";
+
+                        $target_path = BOOK_COVERS_DIR . $book_cover_name;
+
+                        if ( !move_uploaded_file( $book_cover_tmp_name, $target_path ) ) {
+                            $errors[$book_cover] = 'Book cover could not be saved to directory.';
+                        }
+                    }
+                }
+            } else { /* book cover file extension is not valid */
+                $errors['book_cover'] = 'Book cover must be in ' . implode( ' or ', $cover_extensions ) .
+                    ' format.';
+            }
         } else {
-            $errors['book_cover'] = = 'Select the book\'s cover.';
+            $errors['book_cover'] = 'Select the book\'s cover.';
         }
 
+        if ( !empty( $errors ) ) {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        } else {
+
+            $scale = new Scale( $book_cover_name );
+            $scale->setRatio( SCALE_RATIO );
+            $scale->setSourceFolder( BOOK_COVERS_DIR );
+            $scale->setOutputFolder( THUMBNAILS_DIR );
+            $scale->create();
+
+            $book_details = [
+                'user'              => ( int )trim( $form_data['user'] ),
+                'author'            => ( int )trim( $form_data['author'] ),
+                'category'          => ( int )trim( $form_data['category'] ),
+                'book_title'        => trim( $form_data['title'] ),
+                'synopsis'          => trim( $form_data['synopsis'] ),
+                'price'             => ( float )trim( $form_data['price'] ),
+                'quantity_in_stock' => ( int )trim( $form_data['quantity'] ),
+                'book_cover'        => $book_cover_name
+            ];
+
+            $book = new Book;
+
+            if ( $book->insert( $book_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'Book details successfully saved.'
+                ];
+            } else {
+                unlink( BOOK_COVERS_DIR . $book_cover_name );
+                unlink( THUMBNAILS_DIR . $book_cover_name );
+
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Book details could not be saved. Try again later.'
+                    ]
+                ];
+            }
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
     });
+
+    /* update a book's details using book_id */
 
     try {
         $app->run();

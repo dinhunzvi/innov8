@@ -30,6 +30,12 @@
     /* define the views directory, VIEWS_DIR */
     defined( 'VIEWS_DIR' ) ? null : define( 'VIEWS_DIR', BASE_DIR . 'views' . DS );
 
+    /* set book cover thumbnails directory, THUMBNAILS_DIR */
+    defined( 'THUMBNAILS_DIR' ) ? null : define( 'THUMBNAILS_DIR', BOOK_COVERS_DIR . 'thumbnails' . DS );
+
+    /* define ratio of thumbnails to actual photo, SCALE_RATIO */
+    defined( 'SCALE_RATIO' ) ? null : define( 'SCALE_RATIO', 0.20 );
+
     /* load all user created classed using spl_autoload_register */
     spl_autoload_register( function ( $class_name ) {
         require_once CLASSES_DIR . strtolower( $class_name ) . '.php';

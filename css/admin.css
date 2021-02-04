@@ -1,0 +1,78 @@
+/*=================================================
+                    HTML, body
+ =================================================*/
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Raleway", sans-serif;
+}
+
+p {
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.page-title {
+    font-size: 16px;
+    color: #030341;
+    margin: 10px 0;
+}
+
+/*=================================================
+                    top row
+ =================================================*/
+#top_row {
+    background: #ffffff;
+    padding: 10px;
+}
+
+.top-menu {
+    margin: 0;
+    list-style: none;
+    text-align: right;
+}
+
+.top-menu > li {
+    display: inline-block;
+    display: -moz-inline-block;
+}
+
+.top-menu > li + li:before {
+    padding: 0 5px;
+    color: #030341;
+    content: "|\00a0";
+}
+
+.top-menu > li > a, .top-menu > li > a:hover, .top-menu > li > a:focus {
+    text-decoration: none;
+    color: #030341;
+}
+
+/*=================================================
+                    Navigation
+ =================================================*/
+.navbar-brand > img {
+    width: 100px;
+}
+
+#navigation {
+    background: #ffffff;
+    padding: 0;
+}
+
+.navbar .navbar-nav .nav-link, .navbar .navbar-nav .nav-link:hover, .navbar .navbar-nav .nav-link:focus {
+    text-decoration: none;
+    color: #030341;
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+}
+
+

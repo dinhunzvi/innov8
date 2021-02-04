@@ -16,10 +16,10 @@
 
         /**
          * @param string $name
-         * @param int $value
-         * @return int
+         * @param $value
+         * @return mixed
          */
-        public static function put ( $name = "", $value = 0 ): int
+        public static function put ( string $name, $value )
         {
             return $_SESSION[$name] = $value;
         }
