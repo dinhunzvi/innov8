@@ -882,6 +882,136 @@
     });
 
     /* update a book's details using book_id */
+    $app->put( '/book/{book_id}', function ( Request $request, Response $response ) use ( $price_options,
+        $quantity_options ) {
+        $form_data = $request->getParsedBody();
+        $book_details = $errors = $data = [];
+        $book_id = $request->getAttribute( 'book_id' );
+
+        if ( !empty( $form_data['author'] ) && ( $form_data['author'] !== "" ) ) {
+            $book_details['author'] = ( int )trim( $form_data['author'] );
+        } else {
+            $errors['author'] = 'Select book\'s author.';
+        }
+
+        if ( !empty( $form_data['category'] ) && ( $form_data['category'] !== "" ) ) {
+            $book_details['category'] = ( int )trim( $form_data['category'] );
+        } else {
+            $errors['category'] = 'Select book\'s category.';
+        }
+
+        if ( !empty( $form_data['title'] ) && ( $form_data['title'] !== "" ) ) {
+            if ( Validator::validate_book_title( $form_data['title'] ) ) {
+                $book_details['book_title'] = trim( $form_data['title'] );
+            } else {
+                $errors['title'] = 'Book\'s title must have between 5 and 100 alpha-numeric characters and spaces only.';
+            }
+        } else {
+            $errors['title'] = 'Enter book\'s title.';
+        }
+
+        if ( !empty( $form_data['synopsis'] ) && ( $form_data['synopsis'] !== "" ) ) {
+            $book_details['synopsis'] = trim( $form_data['synopsis'] );
+        } else {
+            $errors['synopsis'] = 'Enter book\'s synopsis.';
+        }
+
+        if ( !empty( $form_data['price'] ) && ( $form_data['price'] !== "" ) ) {
+            if ( filter_var( $form_data['price'], FILTER_VALIDATE_FLOAT, $price_options ) ) {
+                $book_details['price'] = ( float )trim( $form_data['price'] );
+            } else {
+                $errors['price'] = 'Book\'s price must be between 0.99 and 10000.00.';
+            }
+        } else {
+            $errors['price'] = 'Enter book\'s price.';
+        }
+
+        if ( !empty( $form_data['quantity'] ) && ( $form_data['quantity'] !== "" ) ) {
+            if ( filter_var( $form_data['quantity'], FILTER_VALIDATE_INT, $quantity_options ) ) {
+                $book_details['quantity_in_stock'] = ( int )trim( $form_data['quantity'] );
+            } else {
+                $errors['price'] = 'Book\'s quantity in stock must be at least 1.';
+            }
+        } else {
+            $errors['quantity'] = 'Enter book\'s quantity in stock.';
+        }
+
+        if ( empty( $errors ) ) {
+            $book = new Book();
+
+            if ( $book->update( $book_id, $book_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'Book details successfully updated.'
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Book details could not be updated. Try again later.'
+                    ]
+                ];
+            }
+        } else {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* delete a book using book_id */
+    $app->put( '/delete_book/{book_id}', function ( Request $request, Response $response ) {
+        $book_id = $request->getAttribute( 'book_id' );
+        $book_details = $data = [];
+
+        $book_details['deleted'] = 'yes';
+
+        $book = new Book();
+
+        if ( $book->update( $book_id, $book_details ) ) {
+            $data = [
+                'success'   => true,
+                'message'   => 'Book successfully deleted.'
+            ];
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'Book could not be deleted. Try again later.'
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* restore a book using book_id */
+    $app->put( '/restore_book/{book_id}', function ( Request $request, Response $response ) {
+        $book_id = $request->getAttribute( 'book_id' );
+        $book_details = $data = [];
+
+        $book_details['deleted'] = 'no';
+
+        $book = new Book();
+
+        if ( $book->update( $book_id, $book_details ) ) {
+            $data = [
+                'success'   => true,
+                'message'   => 'Book successfully restored.'
+            ];
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'Book could not be restored. Try again later.'
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
 
     try {
         $app->run();

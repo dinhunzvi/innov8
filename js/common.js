@@ -62,3 +62,10 @@
 
         }
     }
+
+    $( '#administrator_sign_out' ).on( 'click', function () {
+        if ( confirm( 'Are you sure you want to sign out?' ) ) {
+            localStorage.removeItem( admin_session_name );
+            window.location.href = 'sign_out.php';
+        }
+    });
