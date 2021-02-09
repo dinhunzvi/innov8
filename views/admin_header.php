@@ -45,7 +45,7 @@
         <link rel="stylesheet" href="./../css/admin.css" type="text/css" />
         <link rel="stylesheet" href="./../css/common.css" type="text/css" />
 
-        <title></title>
+        <title>Innov8 Administration - <?php echo $page_title; ?></title>
     </head>
     <body>
 

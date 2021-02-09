@@ -138,3 +138,92 @@ alter view vw_authors as
         tbl_users u
         on
                 a.user = u.user_id;
+
+
+alter view vw_books as
+    select
+        b.book_id, format( b.price, 2 ) price, b.deleted, b.category, c.category_name, b.author, b.date_added,
+        b.book_cover, b.book_title, b.synopsis, b.quantity_in_stock, concat_ws( ' ', a.first_name, a.last_name )
+        author_name, concat_ws( ' ', u.first_name, u.last_name ) created_user, b.book_cover
+    from
+        tbl_books b
+    inner join
+        tbl_users u
+    on
+        b.user = u.user_id
+    inner join
+        tbl_authors a
+    on
+        b.author = a.author_id
+    inner join
+        tbl_categories c
+    on
+        b.category = c.category_id;
+
+create table if not exists tbl_customers (
+    customer_id bigint unsigned not null auto_increment,
+    first_name varchar( 50 ) not null,
+    last_name varchar( 50 ) not null,
+    email varchar( 60 ) unique not null,
+    customer_pass char( 255 ) not null,
+    primary key ( customer_id )
+);
+
+create table if not exists tbl_sales (
+    sale_id bigint unsigned not null auto_increment,
+    customer bigint unsigned not null,
+    sales_reference char( 15 ) unique not null,
+    amount double unsigned not null,
+    sale_date timestamp not null default current_timestamp,
+    primary key ( sale_id )
+);
+
+alter table tbl_sales
+    add constraint foreign key fk_sales_customer ( customer ) references tbl_customers ( customer_id );
+
+create view vw_sales as
+    select
+        s.sale_id, s.sale_date, s.sales_reference, format( s.amount, 2 ) amount, concat_ws( c.first_name, c.last_name )
+        customer_name, s.customer
+    from
+        tbl_sales s
+    inner join
+        tbl_customers c
+    on
+        s.customer = c.customer_id;
+
+create table if not exists tbl_sale_details (
+    sale_detail_id bigint unsigned not null auto_increment,
+    sale bigint unsigned not null,
+    book bigint unsigned not null,
+    price double unsigned not null,
+    quantity int unsigned not null,
+    total double unsigned not null,
+    primary key ( sale_detail_id )
+);
+
+alter table tbl_sale_details
+    add constraint foreign key fk_sale_details_sale ( sale ) references tbl_sales ( sale_id );
+
+create view vw_sale_details as
+    select
+        sd.sale, sale_detail_id, sd.price, sd.quantity, sd.total, s.sales_reference, c.category_name, b.category,
+        concat_ws( ' ', a.first_name, a.last_name ) author_name, sd.book, b.book_title, b.author
+    from
+        tbl_sale_details sd
+    inner join
+        tbl_sales s
+    on
+        sd.sale = s.sale_id
+    inner join
+        tbl_books b
+    on
+        sd.book = b.book_id
+    inner join
+        tbl_authors a
+    on
+        b.author = a.author_id
+    inner join
+        tbl_categories c
+    on
+        b.category = c.category_id;
