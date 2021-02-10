@@ -1013,6 +1013,288 @@
 
     });
 
+    /* routes for customers come here */
+
+    /* get all customers */
+    $app->get( '/customers', function ( Request $request, Response $response ) {
+        $customer = new Customer();
+
+        return $response->getBody()->write( json_encode( $customer->get_customers() ) );
+
+    });
+
+    /* get one customer using customer_id */
+    $app->get( '/customers/{customer_id}', function ( Request $request, Response $response ) {
+        $customer_id = $request->getAttribute( 'customer_id' );
+        $customer = new Customer();
+
+        return $response->getBody()->write( json_encode( $customer->get_customer( $customer_id ) ) );
+
+    });
+
+    /* add anew customer */
+    $app->post( '/customer', function ( Request $request, Response $response ) {
+        $form_data = $request->getParsedBody();
+        $customer_details = $data = $errors = [];
+
+        if ( !isset( $form_data['first_name'] ) || ( $form_data['first_name'] === "" ) ) {
+            $errors['first_name'] = 'Enter your first name.';
+        } else {
+            if ( !Validator::validate_name( $form_data['first_name'] ) ) {
+                $errors['first_name'] = 'First name must have between 3 and 50 letters and spaces only.';
+            }
+        }
+
+        if ( !isset( $form_data['last_name'] ) || ( $form_data['last_name'] === "" ) ) {
+            $errors['last_name'] = 'Enter your last name.';
+        } else {
+            if ( !Validator::validate_name( $form_data['last_name'] ) ) {
+                $errors['last_name'] = 'Last name must have between 3 and 50 letters and spaces only.';
+            }
+        }
+
+        if ( !isset( $form_data['email'] ) || ( $form_data['email'] === "" ) ) {
+            $errors['email'] = 'Enter your email address.';
+        } else {
+            if ( !filter_var( $form_data['email'], FILTER_VALIDATE_EMAIL ) ) {
+                $errors['email'] = 'Email address is not valid.';
+            }
+        }
+
+        if ( !isset( $form_data['password'] ) || ( $form_data['password'] === "" ) ) {
+            $errors['password'] = 'Enter your password.';
+        } else {
+            if ( !isset( $form_data['confirm'] ) || ( $form_data['confirm'] === "" ) ) {
+                $errors['confirm'] = 'Confirm your password.';
+            } else {
+                if ( $form_data['confirm'] === $form_data['password'] ) {
+                    if ( !Hash::validate_password( $form_data['confirm'] ) ) {
+                        $errors['password'] = 'Password not strong enough. Include special characters, upper-case letters and digits.';
+                    }
+                } else {
+                    $errors['password'] = 'Passwords do not match.';
+                }
+            }
+        }
+
+        if ( !empty( $errors ) ) {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        } else {
+            $customer_details = [
+                'first_name'    => trim( ucwords( $form_data['first_name'] ) ),
+                'last_name'     => trim( ucwords( $form_data['last_name'] ) ),
+                'email'         => trim( strtolower( $form_data['email'] ) ),
+                'customer_pass' => trim( $form_data['confirm'] )
+            ];
+
+            $customer = new Customer;
+
+            if ( $customer->insert( $customer_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'Registration successful, you can now sign in.'
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Registration failed, try again later.'
+                    ]
+                ];
+            }
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* customer login */
+    $app->post( '/customer_login', function ( Request $request, Response $response ) {
+        $form_data = $request->getParsedBody();
+        $data = $errors = [];
+
+        if ( isset( $form_data['email'] ) || ( $form_data['email'] === "" ) ) {
+            $errors['email'] = 'Enter your email address.';
+        } else {
+            if ( !filter_var( $form_data['email'], FILTER_VALIDATE_EMAIL ) ) {
+                $errors['email'] = 'Email address is not valid.';
+            }
+        }
+
+        if ( !isset( $form_data['password'] ) || ( $form_data['password'] === "" ) ) {
+            $errors['password'] = 'Enter your password.';
+        }
+
+        if ( !empty( $errors ) ) {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        } else {
+
+            $email = trim( strtolower( $form_data['email'] ) );
+            $password = trim( $form_data['password'] );
+
+            $customer = new Customer();
+
+            if ( $customer->sign_in( $email, $password ) ) {
+                $data = [
+                    'success'       => true,
+                    'message'       => 'You have successfully signed in.',
+                    'customer_id'   => $customer->data()->customer_id
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Email address and password combination not found.'
+                    ]
+                ];
+            }
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* update user details customer_id */
+    $app->put( '/customer/{customer_id}', function ( Request $request, Response $response ) {
+        $form_data = $request->getParsedBody();
+        $customer_id = $request->getAttribute( 'customer_id' );
+        $customer_details = $data = $errors = [];
+
+        if ( !empty( $form_data['first_name'] ) && ( $form_data['first_name'] !== "" ) ) {
+            if ( !Validator::validate_name( $form_data['first_name'] ) ) {
+                $errors['first_name'] = 'First name must have between 3 and 50 letters and spaces only.';
+            }
+        } else {
+            $errors['first_name'] = 'Enter your first name.';
+        }
+
+        if ( !empty( $form_data['last_name'] ) && ( $form_data['last_name'] !== "" ) ) {
+            if ( !Validator::validate_name( $form_data['last_name'] ) ) {
+                $errors['last_name'] = 'Last name must have between 3 and 50 letters and spaces only.';
+            }
+        } else {
+            $errors['last_name'] = 'Enter your last name.';
+        }
+
+        if ( !empty( $form_data['email'] ) && ( $form_data['email'] !== "" ) ) {
+            if ( !filter_var( $form_data['email'], FILTER_VALIDATE_EMAIL ) ) {
+                $errors['email'] = 'Email address is not valid.';
+            }
+        } else {
+            $errors['email'] = 'Enter your email address.';
+        }
+
+        if ( empty( $errors ) ) {
+
+            $customer = new Customer;
+
+            if ( $customer->update( $customer_id, $customer_details ) ) {
+                $data = [
+                    'success'   => true,
+                    'message'   => 'Your details have successfully updated.'
+                ];
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'database'  => 'Your details could not be updated. Try again later.'
+                    ]
+                ];
+            }
+        } else {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* update customer password */
+    $app->put( '/customer_password/{customer_id}', function ( Request $request, Response $response ) {
+        $form_data = $request->getParsedBody();
+        $customer_details = $data = $errors = [];
+        $customer_id = $request->getAttribute( 'customer_id' );
+
+        if ( !empty( $form_data['current'] ) && ( $form_data['current'] !== "" ) ) {
+            $current = trim( $form_data['current'] );
+        } else {
+            $errors['current'] = 'Enter your current password.';
+        }
+
+        if ( !empty( $form_data['password'] ) && ( $form_data['password'] !== "" ) ) {
+            if ( !empty( $form_data['confirm'] ) && ( $form_data['confirm'] !== "" ) ) {
+                if ( $form_data['confirm'] === $form_data['password'] ) {
+                    if ( !Hash::validate_password( $form_data['confirm'] ) ) {
+                        $errors['password'] = 'New password not strong enough. Include capital letters, special characters and digits.';
+                    }
+                } else {
+                    $errors['confirm'] = 'Your new passwords do not match.';
+                }
+            } else {
+                $errors['confirm'] = 'Confirm your new password.';
+            }
+        } else {
+            $errors['password'] = 'Enter your new password.';
+        }
+
+        if ( empty( $errors ) ) {
+
+            $customer = new Customer( $customer_id );
+
+            if ( Hash::verify_password( $current, $customer->data()->customer_pass ) ) {
+                $customer_details['customer_pass'] = trim( $form_data['confirm'] );
+
+                if ( $customer->update( $customer_id, $customer_details ) ) {
+                    $data = [
+                        'success'   => true,
+                        'message'   => 'Password successfully updated.'
+                    ];
+                } else {
+                    $data = [
+                        'success'   => false,
+                        'errors'    => [
+                            'database'  => 'Password could not be updated. Try again later.'
+                        ]
+                    ];
+                }
+            } else {
+                $data = [
+                    'success'   => false,
+                    'errors'    => [
+                        'current'   => 'Current password is incorrect.'
+                    ]
+                ];
+            }
+        } else {
+            $data = [
+                'success'   => false,
+                'errors'    => $errors
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* routes for sales come here */
+
+    /* get all sales */
+    $app->get( '/sales', function ( Request $request, Response $response ) {
+        $sale = new Sale();
+
+        return $response->getBody()->write( json_encode( $sale->get_sales() ) );
+
+    });
+
     try {
         $app->run();
     } catch (Throwable $e) {

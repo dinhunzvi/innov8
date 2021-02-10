@@ -143,9 +143,20 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link" href="customers.php">
+                            <i class="fas fa-book-reader"></i> Customers</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="sales.php">
+                            <i class="fas fa-money-check"></i> Sales</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="users.php">
                             <i class="fas fa-users"></i> Users</a>
                     </li>
+
                 </ul>
 
             </div>
