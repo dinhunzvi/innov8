@@ -12,6 +12,8 @@ $( document ).ready( function () {
             }, method   : 'GET',
             success     : function ( sales ) {
 
+                $.fn.dataTable.moment( 'YYYY-MM-DD HH:MM:SS' );
+
                 let table = $( '#sales' );
 
                 table.DataTable().clear();
@@ -19,6 +21,7 @@ $( document ).ready( function () {
                 table.DataTable({
                     "data"          : sales,
                     "destroy"       : true,
+                    "order"         : [ [3, 'desc'] ],
                     columns         : [
                         { "title"   : "Customer name" },
                         { "title"   : "Sale reference" },
