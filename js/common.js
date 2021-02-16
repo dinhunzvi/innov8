@@ -69,3 +69,9 @@
             window.location.href = 'sign_out.php';
         }
     });
+
+    function get_customer_details() {
+        $.ajax({
+            dataType    : 'json',
+        })
+    }

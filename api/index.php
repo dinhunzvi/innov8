@@ -6,6 +6,8 @@
     use Psr\Http\Message\ResponseInterface as Response;
     use Slim\App;
 
+    $cart_session = Config::get_instance()->get( 'cart_session' );
+
     $app = new App();
 
     /* routes for user come here */
@@ -1292,6 +1294,120 @@
         $sale = new Sale();
 
         return $response->getBody()->write( json_encode( $sale->get_sales() ) );
+
+    });
+
+    /* shopping cart routes come here */
+
+    /* get all cart items */
+    $app->get( '/cart_items', function ( Request $request, Response $response ) use ( $cart_session ) {
+       $cart_details = $cart_books = [];
+       $total = 0.00;
+
+       if ( !empty( $_SESSION[$cart_session] ) ) {
+           foreach ( $_SESSION[$cart_session] as $book_id => $value ) {
+
+               $book = new Book();
+
+               $book->get_book( $book_id );
+
+               $cart_books[] = [
+                   'book_id'        => $book_id,
+                   'title'          => $book->data()->book_title,
+                   'author'         => $book->data()->author_name,
+                   'price'          => number_format(
+                       $_SESSION[$cart_session][$book_id]['price'], 2, '.', ',' ),
+                   'quantity'       => $_SESSION[$cart_session][$book_id]['quantity'],
+                   'total'          => number_format(
+                       ( $_SESSION[$cart_session][$book_id]['price'] * $_SESSION[$cart_session][$book_id]['quantity'] ),
+                       2, '.', ',' )
+               ];
+
+               $total += ( $_SESSION[$cart_session][$book_id]['price'] * $_SESSION[$cart_session][$book_id]['quantity'] );
+
+           }
+
+           $cart_details = [
+               'cart_books'     => $cart_books,
+               'total'          => number_format( $total, 2, '.', ',' )
+           ];
+
+       }
+
+       return $response->getBody()->write( json_encode( $cart_details ) );
+
+    });
+
+    /* add book to shopping cart */
+    $app->post( '/shopping_cart', function ( Request $request, Response $response ) use ( $cart_session ) {
+       $form_data = $request->getParsedBody();
+       $cart_item = $data = $errors = [];
+
+       if ( !isset( $form_data['quantity'] ) || ( $form_data['quantity'] === "" ) ) {
+           $errors['quantity'] = 'Select the quantity you want to buy.';
+       } else {
+           $cart_item['quantity'] = ( int )trim( $form_data['quantity'] );
+       }
+
+       if ( !empty( $errors ) ) {
+           $data = [
+               'success'    => false,
+               'errors'     => $errors
+           ];
+       } else {
+
+           $book_id = ( int )trim( $form_data['book_id'] );
+
+           $cart_item['price']  = ( float )trim( $form_data['price'] );
+
+           if ( !isset( $_SESSION[$cart_session] ) ) {
+               $_SESSION[$cart_session] = [];
+           }
+
+           if ( array_key_exists( $book_id, $_SESSION[$cart_session] ) ) {
+               $_SESSION[$cart_session][$book_id] = $cart_item;
+               $data = [
+                   'success'    => true,
+                   'message'    => 'Book has been added to cart.'
+               ];
+           } else {
+               $quantity = $_SESSION[$cart_session][$book_id]['quantity'] + $cart_item['quantity'];
+               $_SESSION[$cart_session][$book_id]['quantity'] = $quantity;
+               $data = [
+                   'success'    => true,
+                   'message'    => 'Your shopping cart has been updated.'
+               ];
+           }
+       }
+
+       return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* clear shopping cart */
+    $app->delete( '/cart_items', function ( Request $request, Response $response ) use ( $cart_session ) {
+        unset( $_SESSION[$cart_session] );
+
+        return $response->getBody()->write( json_encode( [
+            'success'   => true,
+            'message'   => 'You have cleared your shopping cart.'
+        ] ) );
+
+    });
+
+    /* remove one book from the shopping cart */
+    $app->delete( '/cart_items/{book_id}', function ( Request $request, Response $response )
+        use ( $cart_session ) {
+        $book_id = $request->getAttribute( 'book_id' );
+
+        unset( $_SESSION[$cart_session][$book_id] );
+
+        return $response->getBody()->write( json_encode(
+            [
+                'success'   => true,
+                'message'   => 'You have removed the book from your cart.'
+            ]
+        ) );
 
     });
 
