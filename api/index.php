@@ -88,7 +88,7 @@
             $email_values = [
                 'name'      => $name,
                 'username'  => $user_details['username'],
-                'password'  => $user_details['user_pass']
+                'password'  => $password
             ];
 
             $email_data = [
@@ -458,6 +458,10 @@
 
             $category = new Category();
 
+            $category_details = [
+                'category_name' => ucwords( trim( $form_data['category_name'] ) )
+            ];
+
             if ( $category->update( $category_id, $category_details ) ) {
                 $data = [
                     'success'   => true,
@@ -552,6 +556,16 @@
 
     /* get an author using author_id */
     $app->get( '/authors/{author_id}', function ( Request $request, Response $response ) {
+        $author_id = $request->getAttribute( 'author_id' );
+
+        $author = new Author();
+
+        return $response->getBody()->write( json_encode( $author->get_author( $author_id ) ) );
+
+    });
+
+    /* add a new author */
+    $app->post( '/author', function ( Request $request, Response $response ) {
         $form_data = $request->getParsedBody();
         $author_details = $data = $errors = [];
 
@@ -630,6 +644,11 @@
         if ( empty( $errors ) ) {
 
             $author = new Author();
+
+            $author_details = [
+                'first_name'    => trim( ucwords( $form_data['first_name'] ) ),
+                'last_name'     => trim( ucwords( $form_data['last_name'] ) )
+            ];
 
             if ( $author->update( $author_id, $author_details ) ) {
                 $data = [

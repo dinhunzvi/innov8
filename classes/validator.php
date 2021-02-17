@@ -41,7 +41,7 @@
         }
 
         public static function validate_book_title( string $book_title ) {
-            return preg_match( '/^[A-Z \'.-]{5,100}$/i', $category_name );
+            return preg_match( '/^[a-z\d\-_\s]{5,100}$/i', $book_title );
         }
 
     }

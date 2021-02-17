@@ -62,7 +62,7 @@
             <div id="error_message"></div>
             <div class="form-group" id="username_grp">
 
-                <input type="text" id="username" class="form-control" placeholder="Username" autocomplete="" autofocus />
+                <input type="text" id="username" class="form-control" placeholder="Username" autocomplete="off" autofocus />
 
             </div>
 

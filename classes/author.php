@@ -52,7 +52,8 @@
         }
 
         public function get_active_authors() {
-            $sql = "select author_name, author_id from " . $this->_view_name . " where deleted = 'no'";
+            $sql = "select author_name, author_id from " . $this->_view_name .
+                " where deleted = 'no' order by author_name";
 
             return $this->_db->query( $sql )->results();
 

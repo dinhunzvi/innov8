@@ -41,10 +41,10 @@ $( document ).ready( function () {
                             mRender : function ( data, type, row ) {
                                 if ( row.deleted === 'yes' ) {
                                     return '<button type="button" class="btn btn-success" id="' + row.user_id
-                                        + '"><i class="fas fa-check"></i> Restore user</button>';
+                                        + '"><i class="fas fa-check"></i> Restore</button>';
                                 } else {
                                     return '<button type="button" class="btn btn-danger" id="' + row.user_id
-                                        + '"><i class="fas fa-times"></i> Delete user</button>';
+                                        + '"><i class="fas fa-times"></i> Delete</button>';
                                 }
                             }
                         },

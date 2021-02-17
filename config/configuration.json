@@ -23,7 +23,7 @@
     "username"    : "support@dnptransport.com",
     "password"    : "blacKW@_8r86",
     "server"      : "mail.dnptransport.com",
-    "sender"      : "Catholic University of Zimbabwe LMS Support",
+    "sender"      : "Innov8 Bookshop IT Support",
     "smtp_port"   : 465
   },
   "sms_settings"  : {

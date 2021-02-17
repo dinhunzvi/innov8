@@ -95,14 +95,14 @@ $( document ).ready( function () {
         }
     });
 
-    $( document ).on( 'click', '.btn-danger', function () {
+    $( document ).on( 'click', '.btn-info', function () {
         let author_id = $( this ).attr( "id" );
 
         $.ajax({
             dataType    : 'json',
             error       : function ( xhr, type ) {
                 console.log( xhr, type );
-            }, method   : 'PUT',
+            }, method   : 'GET',
             success     : function ( author ) {
 
                 current_author = author;
@@ -199,7 +199,7 @@ $( document ).ready( function () {
 
                 }
 
-            }, url      : admin_url + 'user'
+            }, url      : admin_url + 'author'
         })
     }
 
@@ -241,7 +241,7 @@ $( document ).ready( function () {
 
                 }
 
-            }, url      : admin_url + 'users/' + $( '#author_id' ).val()
+            }, url      : admin_url + 'author/' + $( '#author_id' ).val()
         });
 
     }

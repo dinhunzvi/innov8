@@ -1,0 +1,52 @@
+/*
+    Template    : innov8 Bookstore
+    Author      : Douglas Nhunzvi
+    Email       : dougiedj@gmail.com
+ */
+
+/**
+
+/*
+    general styles
+ */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+    -ms-overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Raleway", sans-serif;
+}
+
+p {
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.page-title {
+    font-size: 16px;
+    color: #030341;
+    margin: 10px 0;
+}
+
+.btn-default, .btn-default:hover, .btn-default:focus {
+    background: #030341;
+    color: #ffffff;
+    padding: 8px;
+    border: solid 1px #030341;
+}
+
+/**
+    img styles
+ */
+#email-header img {
+    margin: 10px 0;
+}

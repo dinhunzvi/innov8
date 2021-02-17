@@ -20,7 +20,7 @@ $( document ).ready( function () {
             }, method   : 'PUT',
             success     : function ( data ) {
 
-                $( 'input[type="passwor"]' ).val( '' );
+                $( 'input[type="password"]' ).val( '' );
 
                 if ( data.success ) {
 

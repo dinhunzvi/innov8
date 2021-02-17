@@ -19,7 +19,7 @@
 
         ob_start(); // start output buffering
 
-        require_once EMAILS_DIR . "{$template}"; // require the template to be used
+        require_once EMAILS_DIR . "{$template}.php"; // require the template to be used
 
         $contents = ob_get_contents(); // assign contents of output buffer to $contents
 

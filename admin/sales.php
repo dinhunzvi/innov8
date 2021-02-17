@@ -4,7 +4,7 @@
     $user = new User;
 
     if ( !$user->is_signed_in() ) {
-        // redirect( 'sign_in.php' );
+        redirect( 'sign_in.php' );
     }
 
     $page_title = 'Sales';
