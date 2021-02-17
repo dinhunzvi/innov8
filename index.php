@@ -1,142 +1,118 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<?php
+    require_once './core/initialize.php';
 
-        <!-- Google fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap"
-              rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
-              rel="stylesheet" />
+    $page_title = 'Home';
+    $js_file = 'index';
+    $data_tables = false;
 
-        <!-- Font Awesome CSS -->
-        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" crossorigin="anonymous"
-              integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" />
-        <!-- Bootstrap CSS -->
-        <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">-->
-        <link rel="stylesheet" href="./css/bootstrap.min.css" type="text/css" />
-        <!-- Favicons -->
-        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png" />
-        <link rel="manifest" href="./images/site.webmanifest" />
+    require_once VIEWS_DIR . 'header.php';
+?>
 
-        <!-- custom CSS -->
-        <link rel="stylesheet" href="./css/public.css" type="text/css" />
-        <link rel="stylesheet" href="./css/common.css" type="text/css" />
+    <section id="welcome">
 
-        <title>Innov8 Bookshop</title>
-    </head>
-    <body>
+        <div class="container">
 
-        <!-- top starts -->
-        <div id="top">
+            <div class="row">
 
-            <!-- container starts -->
-            <div class="container">
+                <div class="col-md-4">
 
-                <div class="row">
+                    <div class="card welcome-card">
 
-                    <!-- col-md-6 offer starts -->
-                    <div class="col-md-6 offer">
+                        <div class="card-body">
 
-                        <a href="#" class="btn btn-success">Welcome : Guest</a>
+                            <h4>Books</h4>
 
-                        <a href="#">
-                            Shopping cart total $100.00 Total items: 2
-                        </a>
+                            <p>
+                                With a wide range of books, you can be assured that we have what you are looking for.
+                            </p>
+
+                            <p>
+                                From novel, magazines and educational books you are guaranteed we have it. Our books are
+                                reasonably priced.
+                            </p>
+
+                        </div>
 
                     </div>
-                    <!-- col-md-6 offer ends -->
 
-                    <!-- col-md-6 starts -->
-                    <div class="col-md-6">
+                </div>
 
-                        <ul class="menu"><!-- menu starts -->
+                <div class="col-md-4">
 
-                            <li>
-                                <a href="register.php">Sign up</a>
-                            </li>
+                    <div class="card welcome-card">
 
-                            <li>
-                                <a href="sign_in.php">
-                                    <i class="fas fa-sign-in-alt"></i> Sign in
-                                </a>
-                            </li>
+                        <div class="card-body">
 
-                            <li>
-                                <a href="shopping_cart.php">
-                                    <i class="fas fa-shopping-cart"></i> Shopping cart</a>
-                            </li>
+                            <h4>Stationery</h4>
 
-                        </ul><!-- menu starts -->
+                        </div>
 
                     </div>
-                    <!-- col-md-6 ends -->
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card welcome-card">
+
+                        <div class="card-body">
+
+                            <h4>Gifts</h4>
+
+                            <p>
+                                We have a wide variety of gifts for all occasions. For those we do not have in stock we
+                                can order for you upon payment of a 25% deposit.
+                            </p>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
-            <!-- container ends -->
 
         </div>
-        <!-- top ends -->
 
-        <nav class="navbar navbar-expand-lg">
+    </section>
 
-            <a class="navbar-brand" href="index.php">
-                <img class="img-fluid" src="./images/logo.jpg" alt="Innov8 Bookshop" />
-            </a>
+    <section id="newest_books">
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"><i class="fas fa-align-justify"></i></span>
-            </button>
+        <div class="container">
 
-            <button type="button" class="navbar-toggler" data-target="#search" data-toggle="collapse">
-                <span class="navbar-toggler-icon"><i class="fas fa-search"></i></span>
-            </button>
+            <div class="row">
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="col-md-12">
 
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                    <h4>Newest books</h4>
+
+                </div>
+
             </div>
-        </nav>
 
-        <!--<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"
-                integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"
-                integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"></script>-->
-        <script src="./js/jquery-3.5.1-min.js" type="text/javascript"></script>
-        <script src="./js/bootstrap.bundle.min.js" type="text/javascript"></script>
+            <div class="row" id="new_books"></div>
 
-    </body>
-</html>
+        </div>
+
+    </section>
+
+    <section id="best_sellers">
+
+        <div class="row">
+
+            <div class="col-md-4">
+
+                <h4 class="page-title">Best sellers</h4>
+
+            </div>
+
+        </div>
+
+    </section>
+
+<?php
+    require_once VIEWS_DIR . 'footer.php';
+
+
+
+

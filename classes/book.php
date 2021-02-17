@@ -78,8 +78,8 @@
         }
 
         public function get_latest_books() {
-            $sql = "select book_id, book_title, price, author_name, category_name from " . $this->_view_name .
-                " where deleted = 'no' order by date_added desc limit 5";
+            $sql = "select book_id, book_title, price, author_name, category_name, book_cover from " .
+                $this->_view_name . " where deleted = 'no' order by date_added desc limit 4";
 
             return $this->_db->query( $sql )->results();
 

@@ -73,5 +73,36 @@
     function get_customer_details() {
         $.ajax({
             dataType    : 'json',
-        })
+        });
+    }
+
+    function get_book_categories() {
+        $.ajax({
+            dataType    : 'json',
+            error       : function ( xhr, type ) {
+                console.log( xhr, type );
+            }, method   : 'GET',
+            success     : function ( book_categories ) {
+
+                show_categories( book_categories );
+
+            }, url      : public_url + 'active_categories'
+        });
+
+    }
+
+    function show_categories( book_categories ) {
+        let element = $( '#book_categories' );
+
+        let book_categories_list = '';
+
+        element.children().remove();
+
+        $.each( book_categories, function ( index, book_category ) {
+            book_categories_list += '<a class="dropdown-item" id="' + book_category.category_id + '">' +
+                book_category.category_name + '</a>';
+        });
+
+        element.append( book_categories_list );
+
     }

@@ -77,3 +77,73 @@
 .navbar-brand > img {
     width: 100px;
 }
+
+/**
+    welcome-card styles
+ */
+.welcome-card {
+    height: 200px;
+    box-shadow: 1px 2px 5px #f7f7f7;
+    transition: all .4s;
+    margin: 20px 0;
+    background: #F0F0F0;
+}
+
+.welcome-card:hover {
+    box-shadow: 2px 3px 15px #999;
+    transform: translateY( -1px );
+}
+
+.welcome-card h4 {
+    color: #030341;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/*
+    new books styles
+ */
+#newest_books h4 {
+    margin: 10px 0;
+    text-align: center;
+    font-weight: 400;
+    color: #030341;
+}
+
+.book-card {
+    height: 280px;
+    box-shadow: 1px 2px 5px #f7f7f7;
+    transition: all .4s;
+    margin: 20px 0;
+    background: #F0F0F0;
+}
+
+.book-card img {
+    width: 200px;
+    height: 160px;
+    display: block;
+    margin: 5px auto;
+}
+
+.book-card h5 {
+    font-size: 14px;
+    margin-bottom: 2px;
+    margin-left: 4px;
+}
+
+.book-card h6 {
+    font-size: 12px;
+    margin-bottom: 4px;
+    margin-left: 4px;
+}
+
+.book-card .book-price {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.book-card .btn-default {
+    margin: 5px auto;
+    display: block;
+}
