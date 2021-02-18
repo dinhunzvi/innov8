@@ -35,8 +35,8 @@
         <link rel="manifest" href="./images/site.webmanifest" />
 
         <!-- custom CSS -->
-        <link rel="stylesheet" href="./css/public.css" type="text/css" />
         <link rel="stylesheet" href="./css/common.css" type="text/css" />
+        <link rel="stylesheet" href="./css/public.css" type="text/css" />
 
         <title>Innov8 Bookshop - <?php echo $page_title; ?></title>
     </head>

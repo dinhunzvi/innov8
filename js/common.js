@@ -106,3 +106,10 @@
         element.append( book_categories_list );
 
     }
+
+    $( document ).on( 'click', '.dropdown-item', function () {
+        let category_id = $( this ).attr( "id" );
+
+        window.location.href = 'category.php?category_id=' + category_id;
+
+    });

@@ -1358,7 +1358,7 @@
     });
 
     /* add book to shopping cart */
-    $app->post( '/shopping_cart', function ( Request $request, Response $response ) use ( $cart_session ) {
+    $app->post( '/cart_item', function ( Request $request, Response $response ) use ( $cart_session ) {
        $form_data = $request->getParsedBody();
        $cart_item = $data = $errors = [];
 
@@ -1379,11 +1379,11 @@
 
            $cart_item['price']  = ( float )trim( $form_data['price'] );
 
-           if ( !isset( $_SESSION[$cart_session] ) ) {
+           if ( empty( $_SESSION[$cart_session] ) ) {
                $_SESSION[$cart_session] = [];
            }
 
-           if ( array_key_exists( $book_id, $_SESSION[$cart_session] ) ) {
+           if ( !array_key_exists( $book_id, $_SESSION[$cart_session] ) ) {
                $_SESSION[$cart_session][$book_id] = $cart_item;
                $data = [
                    'success'    => true,

@@ -42,11 +42,25 @@ form textarea.form-control {
     min-height: 164px;
 }
 
-.btn-default, .btn-default:hover, .btn-default:focus {
+.btn-default, .btn-default:hover, .btn-default:focus, .btn-blue, .btn-blue:focus, .btn-blue:hover {
     background: #030341;
     color: #ffffff;
     padding: 8px;
     border: solid 1px #030341;
+}
+
+.btn-cart, .btn-cart:focus, .btn-cart:hover {
+    background: #f5b903;
+    color: #FFFFFF;
+    padding: 8px;
+    border: solid 1px #f5b903;
+}
+
+.btn-red, .btn-red:focus, .btn-red:hover {
+    background: #ca0320;
+    color: #FFFFFF;
+    padding: 8px;
+    border: solid 1px #ca0320;
 }
 
 /*=================================================

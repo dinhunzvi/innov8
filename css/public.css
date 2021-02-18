@@ -147,3 +147,35 @@
     margin: 5px auto;
     display: block;
 }
+
+/*
+   book details styles
+ */
+#book_title, #category_title {
+    color: #030341;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+#book-details-right {
+    padding: 25px 30px;
+    box-shadow: 0 0 10px 0 rgba( 0, 0, 0, 0.1 );
+    -webkit-box-shadow: 0 0 10px 0 rgba( 0, 0, 0, 0.1 );
+    border-radius: 4px;
+}
+
+#book_details h5 {
+    margin-top: 10px;
+    color: #030341;
+}
+
+/*
+    shopping cart styles
+ */
+#buttons-row {
+    margin-top: 10px;
+}
+
+#buttons-row .btn {
+    margin: 10px 10px 10px 0;
+}

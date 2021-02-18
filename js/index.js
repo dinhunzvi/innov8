@@ -26,15 +26,23 @@ $( document ).ready( function () {
         element.children().remove();
 
         $.each( newest_books, function ( index, new_book ) {
-            new_books_list += '<div class="col-md-3"><div class="card book-card"><div class="card-body>"><a id="' +
-                new_book.book_id + '"><img alt="' + new_book.book_title + '" src="./book_covers/' + new_book.book_cover
-                + '" /></a><h5>' + new_book.book_title + '</h5> <h6>' + new_book.author_name + '</h6><h5 ' +
+            new_books_list += '<div class="col-md-3"><div class="card book-card"><div class="card-body>"><a><img alt="'
+                + new_book.book_title + '" src="./book_covers/' + new_book.book_cover + '" id="' + new_book.book_id +
+                '" /></a><h5>' + new_book.book_title + '</h5> <h6>' + new_book.author_name + '</h6><h5 ' +
                 'class="book-price">$' + new_book.price + '</h5><button id="' + new_book.book_id +
-                '" class="btn btn-default" type="button">View more</button> </div></div> </div>'
-        })
+                '" class="btn btn-default" type="button">View more</button> </div></div> </div>';
+        });
 
         element.append( new_books_list );
 
     }
+
+    $( document ).on( 'click', '.book-card img', function () {
+        window.location.href = 'book.php?book_id=' + $( this ).attr( "id" );
+    });
+
+    $( document ).on( 'click', '.btn-default', function () {
+        window.location.href = 'book.php?book_id=' + $( this ).attr( "id" );
+    });
 
 });
