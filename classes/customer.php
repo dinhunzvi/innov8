@@ -105,6 +105,13 @@
         }
 
         /**
+         * @return int
+         */
+        public function last_customer_id (): int {
+            return $this->_db->last_id();
+        }
+
+        /**
          * @param string $email
          * @param string $password
          * @return bool

@@ -1115,8 +1115,9 @@
 
             if ( $customer->insert( $customer_details ) ) {
                 $data = [
-                    'success'   => true,
-                    'message'   => 'Registration successful, you can now sign in.'
+                    'success'       => true,
+                    'message'       => 'Registration successful, you can now sign in.',
+                    'customer_id'   => $customer->last_customer_id()
                 ];
             } else {
                 $data = [
@@ -1429,6 +1430,10 @@
         ) );
 
     });
+
+    /* checkout */
+
+
 
     try {
         $app->run();

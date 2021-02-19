@@ -4,6 +4,7 @@
     $page_title = '';
     $js_file = 'category';
     $data_tables = false;
+    $stripe = false;
 
     require_once VIEWS_DIR . 'header.php';
 ?>

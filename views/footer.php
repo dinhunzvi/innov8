@@ -6,15 +6,23 @@
         <script src="./js/bootstrap.bundle.min.js" type="text/javascript"></script>
         <?php
 
-        if ( $data_tables ) {
-            ?>
-            <!-- DataTable JavaScript -->
-            <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-            <?php
-        }
+            if ( $data_tables ) {
+                ?>
+                    <!-- DataTable JavaScript -->
+                    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+                    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+                <?php
+            }
+
+            if ( $stripe ) {
+                ?>
+                    <!-- Stripe JavaScript library -->
+                    <script src="https://js.stripe.com/v3/"></script>
+                <?php
+            }
         ?>
         <script src="./js/common.js" type="text/javascript"></script>
+        <script src="./js/register.js" type="text/javascript"></script>
         <script src="./js/<?php echo $js_file; ?>.js" type="text/javascript"></script>
     </body>
 </html>

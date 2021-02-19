@@ -63,6 +63,7 @@
 #top ul.menu > li > a {
     color: #eeeeee;
     font-family: "Raleway", sans-serif;
+    text-decoration: none;
 }
 
 #top ul.menu > li + li:before {

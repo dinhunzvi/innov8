@@ -113,3 +113,11 @@
         window.location.href = 'category.php?category_id=' + category_id;
 
     });
+
+    $( '#btnRegistrationClose' ).on( 'click', function () {
+        $( '#registration' ).modal( 'hide' );
+    });
+
+    $( '#customer_registration' ).on( 'click', function () {
+        $( '#registration' ).modal( 'show' );
+    });
