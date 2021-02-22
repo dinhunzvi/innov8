@@ -114,10 +114,3 @@
 
     });
 
-    $( '#btnRegistrationClose' ).on( 'click', function () {
-        $( '#registration' ).modal( 'hide' );
-    });
-
-    $( '#customer_registration' ).on( 'click', function () {
-        $( '#registration' ).modal( 'show' );
-    });

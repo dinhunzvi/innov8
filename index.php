@@ -4,6 +4,7 @@
     $page_title = 'Home';
     $js_file = 'index';
     $data_tables = false;
+    $stripe = false;
 
     require_once VIEWS_DIR . 'header.php';
 ?>

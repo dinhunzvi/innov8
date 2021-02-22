@@ -68,12 +68,12 @@
                         <ul class="menu"><!-- menu starts -->
 
                             <li>
-                                <a id="customer_registration" href="#">
+                                <a href="register.php">
                                     <i class="fas fa-save"></i> Sign up</a>
                             </li>
 
                             <li>
-                                <a id="customer_sign_in" href="#">
+                                <a href="sign_in.php">
                                     <i class="fas fa-sign-in-alt"></i> Sign in
                                 </a>
                             </li>
@@ -138,117 +138,3 @@
 
         </nav>
 
-        <!-- Modal for customer registration -->
-        <div class="modal fade" id="registration" data-backdrop="static" data-keyboard="false"
-             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-
-            <div class="modal-dialog">
-
-                <div class="modal-content">
-
-                    <div class="modal-header">
-
-                        <h5 class="modal-title" id="staticBackdropLabel">Registration</h5>
-
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-
-                        <div class="row">
-
-                            <div class="col-md-6" id="modal_message"></div>
-
-                        </div>
-
-                        <form method="post" id="register_form">
-
-                            <div class="row">
-
-                                <div class="col-md-6">
-
-                                    <div class="form-group" id="first_name_grp">
-
-                                        <input type="text" id="first_name" class="form-control" autocomplete="off"
-                                               placeholder="First name(s)" />
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-6">
-
-                                    <div class="form-group" id="last_name_grp">
-
-                                        <input type="text" id="last_name" class="form-control" autocomplete="off"
-                                               placeholder="Last name" />
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-6">
-
-                                    <div class="form-group" id="email_grp">
-
-                                        <input type="text" id="email" class="form-control" autocomplete="off"
-                                               placeholder="Email address" />
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-6">
-
-                                    <div class="form-group" id="password_grp">
-
-                                        <input type="password" id="password" class="form-control" placeholder="Password" />
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-6">
-
-                                    <div class="form-group" id="confirm_grp">
-
-                                        <input type="password" id="confirm" class="form-control"
-                                               placeholder="Confirm password" />
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <button type="button" class="btn btn-success" id="btnRegister">
-                                <i class="fas fa-save"></i> Register
-                            </button>
-
-                        </form>
-
-                    </div>
-
-                    <div class="modal-footer">
-
-                        <button type="button" class="btn btn-secondary" id="btnRegistrationClose" data-dismiss="modal">
-                            <i class="fas fa-times"></i> Close
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>

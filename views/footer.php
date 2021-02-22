@@ -22,7 +22,6 @@
             }
         ?>
         <script src="./js/common.js" type="text/javascript"></script>
-        <script src="./js/register.js" type="text/javascript"></script>
         <script src="./js/<?php echo $js_file; ?>.js" type="text/javascript"></script>
     </body>
 </html>

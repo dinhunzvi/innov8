@@ -4,6 +4,7 @@
     $page_title = 'Shopping cart';
     $js_file = 'shopping_cart';
     $data_tables = true;
+    $stripe = false;
 
     require_once VIEWS_DIR . 'header.php';
 ?>
@@ -60,6 +61,14 @@
                     <button type="button" id="btnCheckOut" class="btn btn-success">
                         <i class="fas fa-shopping-cart"></i> Check out
                     </button>
+
+                </div>
+
+                <div class="col-md-6 text-right">
+
+                    <p>
+                        Cart total: $<span id="cart-total"></span>
+                    </p>
 
                 </div>
 

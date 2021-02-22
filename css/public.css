@@ -180,3 +180,42 @@
 #buttons-row .btn {
     margin: 10px 10px 10px 0;
 }
+
+/**
+    registration form styles
+ */
+#registration_container {
+    padding: 25px 30px;
+    box-shadow: 0 0 10px 0 rgba( 0, 0, 0, 0.1 );
+    -webkit-box-shadow: 0 0 10px 0 rgba( 0, 0, 0, 0.1 );
+    border-radius: 4px;
+    width: 500px;
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -250px;
+}
+
+#registration_container img {
+    margin: 10px auto;
+    display: block;
+}
+
+#registration_container a {
+    text-decoration: none;
+    color: #030341;
+}
+
+#link-left {
+    font-size: 14px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+#link-right {
+    font-size: 14px;
+    text-align: right;
+    margin-top: 5px;
+}

@@ -12,6 +12,8 @@ $( document ).ready( function () {
             }, method   : 'GET',
             success     : function ( cart_details ) {
 
+                $( '#cart-total' ).append( cart_details.total );
+
                 let table = $( '#my_cart' );
 
                 table.DataTable().clear();

@@ -60,7 +60,7 @@ $( document ) .ready( function () {
 
     }
 
-    $( document ).on( 'click', '.btn-blue', function () {
+    $( document ).on( 'click', '.btn-default', function () {
        window.location.href = 'book.php?book_id=' + $( this ).attr( "id" );
     });
 

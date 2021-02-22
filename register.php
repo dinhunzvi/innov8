@@ -33,73 +33,138 @@
 
         <!-- custom CSS -->
         <link rel="stylesheet" href="./css/common.css" type="text/css" />
-        <link rel="stylesheet" href="./css/sign_in.css" type="text/css" />
+        <link rel="stylesheet" href="./css/public.css" type="text/css" />
 
         <title>Innov8 Bookshop - Customer registration</title>
-        <style>
-            .bd-placeholder-img {
-                font-size: 1.125rem;
-                text-anchor: middle;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
-
-            @media (min-width: 768px) {
-                .bd-placeholder-img-lg {
-                    font-size: 3.5rem;
-                }
-            }
-        </style>
     </head>
-    <body class="text-center">
+    <body>
 
-        <form class="form-signin" method="post" id="register_form">
+        <div class="container">
 
-            <img class="mb-4" src="./images/logo.jpg" alt="" width="250" height="165">
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <div id="registration_container">
 
-            <div id="error_message"></div>
+                <div class="row">
 
-            <div class="form-group" id="first_name_grp">
+                    <div class="col-md-12">
 
-                <input type="text" id="first_name" class="form-control" placeholder="First name(s)" autocomplete="off"
-                       autofocus />
+                        <img src="./images/logo.jpg" alt="Innov8 Bookshop" class="img-fluid" />
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <h4>Customer registration</h4>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12" id="error_message"></div>
+
+                </div>
+
+                <form method="post" id="register_form">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group" id="first_name_grp">
+
+                                <input type="text" id="first_name" class="form-control" autocomplete="off" autofocus
+                                       placeholder="First name(s)" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group" id="last_name_grp">
+
+                                <input type="text" id="last_name" class="form-control" autocomplete="off" autofocus
+                                       placeholder="Last name" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group" id="email_grp">
+
+                                <input type="email" id="email" class="form-control" placeholder="Email address"
+                                       autocomplete="off" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group" id="password_grp">
+
+                                <input type="password" id="password" class="form-control" placeholder="Password" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group" id="confirm_grp">
+
+                                <input type="password" id="confirm" class="form-control" placeholder="Confirm password" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" id="btnRegister" class="btn btn-blue">
+                        <i class="fas fa-save"></i> Register
+                    </button>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <p id="link-left">
+                                <a href="sign_in.php">Registered already. Sign in here</a>
+                            </p>
+
+                        </div>
+
+                        <!--<div class="col-md-6">
+
+                            <p id="link-right">
+                                <a href="sign_in.php">Forgot password?</a>
+                            </p>
+
+                        </div>-->
+
+                    </div>
+
+                </form>
 
             </div>
 
-            <div class="form-group" id="last_name_grp">
-
-                <input type="text" id="last_name" class="form-control" placeholder="Last name" autocomplete="off" />
-
-            </div>
-
-            <div class="form-group" id="email_grp">
-
-                <input type="email" id="email" class="form-control" placeholder="Email address" autocomplete="off" />
-
-            </div>
-
-            <div class="form-group" id="password_grp">
-
-                <input type="password" id="password" class="form-control" placeholder="Password" />
-
-            </div>
-
-            <div class="form-group" id="confirm_grp">
-
-                <input type="password" id="confirm" class="form-control" placeholder="Confirm password" />
-
-            </div>
-
-            <button type="submit" id="btnRegister" class="btn btn-default">
-                Register
-            </button>
-
-            <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
-
-        </form>
+        </div>
 
         <script src="./js/jquery-3.5.1-min.js" type="text/javascript"></script>
         <script src="./js/bootstrap.bundle.min.js" type="text/javascript"></script>

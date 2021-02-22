@@ -1,15 +1,12 @@
 $( document ).ready( function () {
 
-    $( '#btnRegister' ).on( 'click', function () {
+    $( '#login_form' ).on( 'submit', function () {
         let form_data = {
-            'first_name'    : $( '#first_name' ).val(),
-            'last_name'     : $( '#last_name' ).val(),
-            'email'         : $( '#email' ).val(),
-            'password'      : $( '#password' ).val(),
-            'confirm'       : $( '#confirm' ).val()
+            'email'     : $( '#email' ).val(),
+            'password'  : $( '#password' ).val()
         };
 
-        let button = $( '#btnRegister' );
+        let button = $( '#btnSign-in' );
 
         clear_error_messages();
         disable_button( button );
@@ -22,13 +19,14 @@ $( document ).ready( function () {
             }, method   : 'POST',
             success     : function ( data ) {
 
-                $( 'input[type="password"]' ).val( '' );
+                $( '#password' ).val( '' );
 
                 if ( data.success ) {
 
                     $( '#error_message' ).append( '<div class="alert alert-success alert-dismissible fade show">' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ' +
                         'aria-hidden="true">&times;</span></button>' + data.message + '</div>' );
+                    localStorage.setItem( customer_session_name, data.customer_id);
                     setInterval( function () {
                         window.location.href = 'index.php';
                     }, 5000 );
@@ -41,29 +39,16 @@ $( document ).ready( function () {
                             'aria-hidden="true">&times;</span></button>' + data.errors.database + '</div>' );
                     }
 
-                    if ( data.errors.confirm ) {
-                        display_error( $( '#confirm_grp' ), data.errors.confirm );
+                    if ( data.errors.password ) {
+                        display_error( $( '#password_grp' ), data.errors.password );
                     }
 
                     if ( data.errors.email ) {
                         display_error( $( '#email_grp' ), data.errors.email );
                     }
-
-                    if ( data.errors.first_name ) {
-                        display_error( $( '#first_name_grp' ), data.errors.first_name );
-                    }
-
-                    if ( data.errors.last_name ) {
-                        display_error( $( '#last_name_grp' ), data.errors.last_name );
-                    }
-
-                    if ( data.errors.password ) {
-                        display_error( $( '#password_grp' ), data.errors.password );
-                    }
-
                 }
 
-            }, url      : public_url + 'customer'
+            }, url      : public_url + 'customer_login'
         });
 
         enable_button( button );

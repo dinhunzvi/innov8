@@ -1108,7 +1108,7 @@
                 'first_name'    => trim( ucwords( $form_data['first_name'] ) ),
                 'last_name'     => trim( ucwords( $form_data['last_name'] ) ),
                 'email'         => trim( strtolower( $form_data['email'] ) ),
-                'customer_pass' => trim( $form_data['confirm'] )
+                'customer_pass' => Hash::hash_password( trim( $form_data['confirm'] ) )
             ];
 
             $customer = new Customer;
@@ -1116,8 +1116,7 @@
             if ( $customer->insert( $customer_details ) ) {
                 $data = [
                     'success'       => true,
-                    'message'       => 'Registration successful, you can now sign in.',
-                    'customer_id'   => $customer->last_customer_id()
+                    'message'       => 'Registration successful, you can now sign in.'
                 ];
             } else {
                 $data = [
@@ -1138,7 +1137,7 @@
         $form_data = $request->getParsedBody();
         $data = $errors = [];
 
-        if ( isset( $form_data['email'] ) || ( $form_data['email'] === "" ) ) {
+        if ( !isset( $form_data['email'] ) || ( $form_data['email'] === "" ) ) {
             $errors['email'] = 'Enter your email address.';
         } else {
             if ( !filter_var( $form_data['email'], FILTER_VALIDATE_EMAIL ) ) {
@@ -1347,6 +1346,7 @@
 
            }
 
+           $_SESSION[$cart_session]['total'] = $total;
            $cart_details = [
                'cart_books'     => $cart_books,
                'total'          => number_format( $total, 2, '.', ',' )
@@ -1432,8 +1432,53 @@
     });
 
     /* checkout */
+    $app->post( '/checkout', function ( Request $request, Response $response ) use ( $cart_session ) {
 
+        $total = $_SESSION[$cart_session]['total'];
 
+        $customer_id = Session::get_session( Config::get_instance()->get( 'customer_session' ) );
+        $customer = new Customer( $customer_id );
+
+        $session = Stripe\Checkout\Session::create([
+            'customer_email'    => $customer->data()->email,
+            'payment_method_types'  => ['card'],
+            'line_items'    => [[
+                'price_data'    => [
+                    'currency'      => 'usd',
+                    'product_data'  => [
+                        'name'      => 'Order details for ' . $customer->data()->first_name . ' ' .
+                            $customer->data()->last_name,
+                    ],
+                    'unit_amount'   => convert_amount_to_cents( $total),
+                ],
+                'quantity'      => 1
+            ]],
+            'mode'          => 'payment',
+            'success_url'   => 'http://localhost/innov8/success.php?success_id={CHECKOUT_SESSION_ID}',
+            'cancel_url'    => 'http://localhost/innov8/index.php',
+        ]);
+
+        $data = [
+            'session_id'    => $session->id
+        ];
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* create payment in system */
+    $app->post( '/create-sale', function ( Request $request, Response $response ) use ( $cart_session ) {
+        $form_data = $request->getParsedBody();
+
+        $session_id = trim( $form_data['session_id'] );
+
+        try {
+            $check_out_session = \Stripe\Checkout\Session::retrieve( $session_id );
+        } catch ( Exception $e ) {
+
+        }
+
+    });
 
     try {
         $app->run();
