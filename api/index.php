@@ -5,8 +5,9 @@
     use Psr\Http\Message\ServerRequestInterface as Request;
     use Psr\Http\Message\ResponseInterface as Response;
     use Slim\App;
+use Stripe\Exception\ApiErrorException;
 
-    $cart_session = Config::get_instance()->get( 'cart_session' );
+$cart_session = Config::get_instance()->get( 'cart_session' );
 
     $app = new App();
 
@@ -1346,7 +1347,6 @@
 
            }
 
-           $_SESSION[$cart_session]['total'] = $total;
            $cart_details = [
                'cart_books'     => $cart_books,
                'total'          => number_format( $total, 2, '.', ',' )
@@ -1433,8 +1433,19 @@
 
     /* checkout */
     $app->post( '/checkout', function ( Request $request, Response $response ) use ( $cart_session ) {
+        $total = 0.00;
+        if ( !empty( $_SESSION[$cart_session] ) ) {
+            foreach ( $_SESSION[$cart_session] as $book_id => $value ) {
 
-        $total = $_SESSION[$cart_session]['total'];
+                $book = new Book();
+
+                $book->get_book( $book_id );
+
+                $total += ( $_SESSION[$cart_session][$book_id]['price'] * $_SESSION[$cart_session][$book_id]['quantity'] );
+
+            }
+
+        }
 
         $customer_id = Session::get_session( Config::get_instance()->get( 'customer_session' ) );
         $customer = new Customer( $customer_id );
@@ -1472,11 +1483,132 @@
 
         $session_id = trim( $form_data['session_id'] );
 
+        $data = [];
+
         try {
             $check_out_session = \Stripe\Checkout\Session::retrieve( $session_id );
         } catch ( Exception $e ) {
-
+            $api_error = $e->getMessage();
         }
+
+        if ( empty( $api_error ) && $check_out_session ) {
+            try {
+                $intent = \Stripe\PaymentIntent::retrieve( $check_out_session->payment_intent );
+            } catch ( ApiErrorException $exception ) {
+                $api_error = $exception->getMessage();
+            }
+
+            try {
+                $customer_details = \Stripe\Customer::retrieve( $check_out_session->customer );
+            } catch ( ApiErrorException $exception ) {
+                $api_error = $exception->getMessage();
+            }
+
+            if ( empty( $api_error ) && $intent ) {
+                if ( $intent->status === 'succeeded' ) {
+
+                    $customer_id = Session::get_session( Config::get_instance()->get( 'customer_session' ) );
+
+                    $customer = new Customer( $customer_id );
+
+                    $sale = new Sale();
+
+                    $sales_details = [
+                        'customer'          => $customer_id,
+                        'sales_reference'   => $session_id,
+                        'transaction_id'    => $intent->id,
+                        'amount'            => ( $intent->amount / 100 ),
+                        'currency_used'     => $intent->currency,
+                        'payment_status'    => $intent->status
+                    ];
+
+                    $sale->insert( $sales_details );
+
+                    $sale_id = $sale->last_id();
+
+                    $order_details = [];
+
+                    foreach ( $_SESSION[$cart_session] as $book_id => $value ) {
+
+                        $book = new Book;
+
+                        $book->get_book( $book_id );
+
+                        $order_details[] = [
+                            'title'     => $book->data()->book_title,
+                            'author'    => $book->data()->author_name,
+                            'price'     => ( float )$_SESSION[$cart_session][$book_id]['price'],
+                            'quantity'  => ( int )$_SESSION[$cart_session][$book_id]['quantity'],
+                            'total'     => ( float )( $_SESSION[$cart_session][$book_id]['price'] *
+                                $_SESSION[$cart_session][$book_id]['quantity'] )
+                        ];
+
+                        $order_details = [
+                            'sale'      => $sale_id,
+                            'book'      => $book_id,
+                            'price'     => ( float )$_SESSION[$cart_session][$book_id]['price'],
+                            'quantity'  => ( int )$_SESSION[$cart_session][$book_id]['quantity'],
+                            'total'     => ( float )( $_SESSION[$cart_session][$book_id]['price'] *
+                                $_SESSION[$cart_session][$book_id]['quantity'] )
+                        ];
+
+                        $sale_details = new SaleDetail();
+
+                        $sale_details->insert( $order_details );
+
+                    }
+
+                    $email_values = [
+                        'name'      => $customer_details->name,
+                        'reference' => $sale_id,
+                        'order'     => $order_details,
+                        'total'     => $sales_details['amount']
+                    ];
+
+                    $email_data = [
+                        'name'      => $customer_details->name,
+                        'to'        => $customer_details->email,
+                        'subject'   => 'Order confirmation #' . $sale_id,
+                        'template'  => 'order',
+                        'body'      => $email_values
+                    ];
+
+                    $mailer = new Mailer();
+
+                    $mailer->send( $email_data );
+
+                    if ( $intent->status === 'succeeded' ) {
+                        $data = [
+                            'success'   => true,
+                            'message'   => 'Payment was successful.'
+                        ];
+                    } else {
+                        $data = [
+                            'success'   => false,
+                            'message'   => 'Payment failed.'
+                        ];
+                    }
+
+                } else {
+                    $data = [
+                        'success'   => false,
+                        'message'   => 'Transaction failed.'
+                    ];
+                }
+            } else {
+                $data = [
+                    'success'   => false,
+                    'message'   => 'Failed to retrieve transaction details ' . $api_error
+                ];
+            }
+        } else {
+            $data = [
+                'success'   => false,
+                'message'   => 'Transaction failed ' . $api_error
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
 
     });
 

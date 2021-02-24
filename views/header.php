@@ -53,11 +53,11 @@
                     <!-- col-md-6 offer starts -->
                     <div class="col-md-6 offer">
 
-                        <a href="#" class="btn btn-success">Welcome : Guest</a>
+                        <!--<a href="#" class="btn btn-success">Welcome : Guest</a>
 
                         <a href="#">
                             Shopping cart total $100.00 Total items: 2
-                        </a>
+                        </a>-->
 
                     </div>
                     <!-- col-md-6 offer ends -->
@@ -67,16 +67,43 @@
 
                         <ul class="menu"><!-- menu starts -->
 
-                            <li>
-                                <a href="register.php">
-                                    <i class="fas fa-save"></i> Sign up</a>
-                            </li>
+                            <?php
+                                $customer = new Customer;
 
-                            <li>
-                                <a href="sign_in.php">
-                                    <i class="fas fa-sign-in-alt"></i> Sign in
-                                </a>
-                            </li>
+                                if ( $customer->is_signed_in() ) {
+                                    ?>
+                                    <li>
+                                        <a href="profile.php">
+                                            <i class="fas fa-user"></i> My account</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="change_password.php">
+                                            <i class="fas fa-lock"></i> Change password
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="sign_in.php" id="customer_sign_out">
+                                            <i class="fas fa-sign-out-alt"></i> Sign out
+                                        </a>
+                                    </li>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <li>
+                                        <a href="register.php">
+                                            <i class="fas fa-save"></i> Sign up</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="sign_in.php">
+                                            <i class="fas fa-sign-in-alt"></i> Sign in
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
+                            ?>
 
                             <li>
                                 <a href="shopping_cart.php">

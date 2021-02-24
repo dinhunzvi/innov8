@@ -227,3 +227,11 @@ create view vw_sale_details as
         tbl_categories c
     on
         b.category = c.category_id;
+
+alter table tbl_sales
+    modify sales_reference varchar( 255 ) unique not null;
+
+alter table tbl_sales
+    add transaction_id varchar( 100 ) unique not null after sales_reference,
+    add currency_used varchar( 10 ) not null,
+    add payment_status varchar( 255 ) not null;
