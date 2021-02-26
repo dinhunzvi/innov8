@@ -12,6 +12,7 @@
     $charts = false;
     $data_tables = true;
     $moment = false;
+    $pdf_js = false;
 
     require_once VIEWS_DIR . 'admin_header.php';
 ?>

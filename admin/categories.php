@@ -11,6 +11,7 @@
     $js_file = 'categories';
     $data_tables = true;
     $charts = false;
+    $pdf_js = false;
     $moment = false;
 
     require_once VIEWS_DIR . 'admin_header.php';

@@ -25,6 +25,7 @@
                 ?>
                 <!-- chart.js -->
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+                <script src="https://cdn.rawgit.com/emn178/Chart.PieceLabel.js/master/build/Chart.PieceLabel.min.js"></script>
                 <?php
             }
 

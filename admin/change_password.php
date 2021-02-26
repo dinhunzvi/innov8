@@ -11,6 +11,7 @@
     $js_file = 'change_password';
     $data_tables = false;
     $charts = false;
+    $pdf_js = false;
     $moment = false;
 
     require_once VIEWS_DIR . 'admin_header.php';

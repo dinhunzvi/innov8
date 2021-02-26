@@ -37,8 +37,6 @@ $( document ).ready( function () {
 
                 let monthly_sales_data = chart_data.monthly_sales;
 
-                console.log( monthly_sales_data );
-
                 let sale_months = [];
 
                 let total_sales = [];
@@ -96,6 +94,70 @@ $( document ).ready( function () {
                     type    : 'bar',
                     data    : monthly_sales_data_graph,
                     options : monthly_sales_options
+                });
+
+                let sales_by_category_data = chart_data.category_sales
+
+                let categories = [];
+
+                let category_sales = [];
+
+                let colors = [];
+
+                let dynamic_colors = function () {
+                    let r = Math.floor(Math.random() * 255);
+                    let g = Math.floor(Math.random() * 255);
+                    let b = Math.floor(Math.random() * 255);
+                    return "rgb( " + r + ", " + g + ", " + b + " )";
+                };
+
+                for( let counter in sales_by_category_data ) {
+                    categories.push( sales_by_category_data[counter].category_name );
+                    category_sales.push( sales_by_category_data[counter].copies_sold );
+                    colors.push( dynamic_colors() );
+                }
+
+                let category_sales_data_graph = {
+                    labels      : categories,
+                    datasets    : [
+                        {
+                            label                   : "Copies sold",
+                            backgroundColor         : colors,
+                            borderColor             : "#000000",
+                            hoverBackgroundColor    : "#ec3437",
+                            hoverBorderColor        : "#f4f4f4",
+                            data                    : category_sales
+                        }
+                    ]
+                }
+
+                let category_sales_options = {
+                    legend: {
+                        display     : true,
+                        position    : "bottom",
+                        labels      : {
+                            fontColor: "#000080",
+                        }
+                    },
+                    pieceLabel      : {
+                        render      : 'values'
+                    },
+                    title: {
+                        display     : true,
+                        position    : "top",
+                        text        : "Copies sold by category",
+                        fontSize    : 18,
+                        fontColor   : "#111"
+                    },
+                    responsive      : true,
+                };
+
+                let category_sales_context = $( '#copies_by_category' );
+
+                let category_sales_chart = new Chart( category_sales_context, {
+                    type    : 'doughnut',
+                    data    : category_sales_data_graph,
+                    options : category_sales_options
                 });
 
             }, url      : admin_url + 'admin_charts'

@@ -9,6 +9,7 @@
 
     $page_title = 'Users';
     $js_file = 'users';
+    $pdf_js = false;
     $data_tables = true;
     $charts = false;
     $moment = false;

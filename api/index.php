@@ -1667,7 +1667,7 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
         $data = [
             'category_sales'        => $sale_detail->sales_by_category(),
             'monthly_sales'         => $sale->sales_by_month(),
-            'monthly_category_sales'=> $sale_detail->monthly_sales_by_category()
+            //'monthly_category_sales'=> $sale_detail->monthly_sales_by_category()
         ];
 
         return $response->getBody()->write( json_encode( $data ) );

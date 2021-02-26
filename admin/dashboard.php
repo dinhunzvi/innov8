@@ -12,6 +12,7 @@
     $charts = true;
     $data_tables = false;
     $moment = false;
+    $pdf_js = false;
 
     require_once VIEWS_DIR . 'admin_header.php';
 ?>
@@ -158,11 +159,11 @@
 
     <section id="charts">
 
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="row">
 
-                <div class="col-md-4">
+                <div class="col-md-6">
 
                     <div class="row">
 
@@ -178,7 +179,7 @@
 
                         <div class="col-md-12">
 
-                            <canvas id="copies_by_month"></canvas>
+                            <canvas id="copies_by_category"></canvas>
 
                         </div>
 
@@ -186,7 +187,7 @@
 
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
 
                     <div class="row">
 
@@ -210,7 +211,7 @@
 
                 </div>
 
-                <div class="col-md-4">
+                <!--<div class="col-md-4">
 
                     <div class="row">
 
@@ -232,7 +233,7 @@
 
                     </div>
 
-                </div>
+                </div>-->
 
             </div>
 

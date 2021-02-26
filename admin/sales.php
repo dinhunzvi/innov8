@@ -10,6 +10,7 @@
     $page_title = 'Sales';
     $js_file = 'sales';
     $charts = false;
+    $pdf_js = false;
     $data_tables = true;
     $moment = true;
 

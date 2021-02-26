@@ -42,7 +42,7 @@
          * @return mixed
          */
         public function monthly_sales_by_category() {
-            $sql = "select sum( total ) monthly_sales, date_format( sale_date, '%m-%Y' ) as sale_month, category_name "
+            $sql = "select sum( total ) monthly_sales, date_format( sale_date, '%b-%Y' ) as sale_month, category_name "
                 . "from " . $this->_view_name . " group by sale_month, category_name";
 
             return $this->_db->query( $sql )->results();
