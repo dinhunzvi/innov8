@@ -84,7 +84,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="sign_in.php" id="customer_sign_out">
+                                        <a href="sign_out.php" id="customer_sign_out">
                                             <i class="fas fa-sign-out-alt"></i> Sign out
                                         </a>
                                     </li>

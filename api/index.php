@@ -1317,6 +1317,14 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
 
     });
 
+    /* get best sellers */
+    $app->get( '/bestsellers', function ( Request $request, Response $response ) {
+        $sale_detail = new SaleDetail();
+
+        return $response->getBody()->write( json_encode( $sale_detail->best_selling_books() ) );
+
+    });
+
     /* shopping cart routes come here */
 
     /* get all cart items */
@@ -1519,14 +1527,12 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
                         'transaction_id'    => $intent->id,
                         'amount'            => ( $intent->amount / 100 ),
                         'currency_used'     => $intent->currency,
-                        'payment_status'    => $intent->status
+                        'payment_status'    => $intent->status,
                     ];
 
                     $sale->insert( $sales_details );
 
                     $sale_id = $sale->last_id();
-
-                    $order_details = [];
 
                     foreach ( $_SESSION[$cart_session] as $book_id => $value ) {
 
@@ -1534,7 +1540,7 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
 
                         $book->get_book( $book_id );
 
-                        $order_details[] = [
+                        $order_items[] = [
                             'title'     => $book->data()->book_title,
                             'author'    => $book->data()->author_name,
                             'price'     => ( float )$_SESSION[$cart_session][$book_id]['price'],
@@ -1552,22 +1558,32 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
                                 $_SESSION[$cart_session][$book_id]['quantity'] )
                         ];
 
+                        $book_details = [
+                            'quantity_in_stock'     => $book->data()->quantity_in_stock -
+                                $_SESSION[$cart_session][$book_id]['quantity']
+                        ];
+
+                        $book->update( $book_id, $book_details );
+
                         $sale_details = new SaleDetail();
 
                         $sale_details->insert( $order_details );
 
                     }
 
+                    $customer_name = implode( ' ',
+                        [ $customer->data()->first_name, $customer->data()->last_name ] );
+
                     $email_values = [
-                        'name'      => $customer_details->name,
+                        'name'      => $customer_name,
                         'reference' => $sale_id,
-                        'order'     => $order_details,
-                        'total'     => $sales_details['amount']
+                        'order'     => $order_items,
+                        'total'     => ( float )$sales_details['amount']
                     ];
 
                     $email_data = [
-                        'name'      => $customer_details->name,
-                        'to'        => $customer_details->email,
+                        'name'      => $customer_name,
+                        'to'        => $customer->data()->email,
                         'subject'   => 'Order confirmation #' . $sale_id,
                         'template'  => 'order',
                         'body'      => $email_values
@@ -1578,9 +1594,11 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
                     $mailer->send( $email_data );
 
                     if ( $intent->status === 'succeeded' ) {
+                        unset( $_SESSION[$cart_session] );
                         $data = [
-                            'success'   => true,
-                            'message'   => 'Payment was successful.'
+                            'success'       => true,
+                            'message'       => 'Payment was successful.',
+                            'order_items'   => $order_items
                         ];
                     } else {
                         $data = [
@@ -1588,7 +1606,6 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
                             'message'   => 'Payment failed.'
                         ];
                     }
-
                 } else {
                     $data = [
                         'success'   => false,
@@ -1607,6 +1624,51 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
                 'message'   => 'Transaction failed ' . $api_error
             ];
         }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /** admin dashboard routes come here */
+
+    /* get dashboard card statistics */
+    $app->get( '/card_statistics', function ( Request $request, Response $response ) {
+       $sale = new Sale();
+       $total = 0.00;
+       $copies_sold = 0;
+       foreach ( $sale->get_sales() as $_sale ) {
+           $total += $_sale->amount;
+       };
+
+       $customers = new Customer();
+
+       $sale_detail = new SaleDetail();
+
+       foreach( $sale_detail->get_sales_details() as $detail ) {
+           $copies_sold += $detail->quantity;
+       }
+
+       $data = [
+           'total_sales'    => number_format( $total, 2, '.', ', ' ),
+           'number_sales'   => count( $sale->get_sales() ),
+           'customers'      => count( $customers->get_customers() ),
+           'copies_sold'    => $copies_sold,
+       ];
+
+       return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
+    /* get charts data */
+    $app->get( '/admin_charts', function ( Request $request, Response $response ) {
+        $sale_detail = new SaleDetail();
+        $sale = new Sale();
+
+        $data = [
+            'category_sales'        => $sale_detail->sales_by_category(),
+            'monthly_sales'         => $sale->sales_by_month(),
+            'monthly_category_sales'=> $sale_detail->monthly_sales_by_category()
+        ];
 
         return $response->getBody()->write( json_encode( $data ) );
 

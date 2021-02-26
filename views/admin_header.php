@@ -47,7 +47,7 @@
 
         <title>Innov8 Administration - <?php echo $page_title; ?></title>
     </head>
-    <body>
+    <body class="admin">
 
         <div id="top_row">
 

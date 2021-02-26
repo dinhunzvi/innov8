@@ -20,11 +20,11 @@
     "time_cost"     :  4
   },
   "email_settings" : {
-    "username"    : "support@dnptransport.com",
-    "password"    : "blacKW@_8r86",
-    "server"      : "mail.dnptransport.com",
+    "username"    : "dinhunzvi@live.com",
+    "password"    : "jivzsusvsvkpdqca",
+    "server"      : "smtp.live.com",
     "sender"      : "Innov8 Bookshop IT Support",
-    "smtp_port"   : 465
+    "smtp_port"   : 587
   },
   "sms_settings"  : {
     "username"    : "Rejoice",

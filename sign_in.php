@@ -4,7 +4,7 @@
     $customer = new Customer();
 
     if ( $customer->is_signed_in() ) {
-        redirect( 'dashboard.php' );
+        redirect( 'index.php' );
     }
 ?>
 <!doctype html>

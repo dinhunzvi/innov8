@@ -99,13 +99,19 @@
 
     <section id="best_sellers">
 
-        <div class="row">
+        <div class="container">
 
-            <div class="col-md-4">
+            <div class="row">
 
-                <h4 class="page-title">Best sellers</h4>
+                <div class="col-md-12">
+
+                    <h4 class="page-title">Best sellers</h4>
+
+                </div>
 
             </div>
+
+            <div class="row" id="best_selling_books"></div>
 
         </div>
 

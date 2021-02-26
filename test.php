@@ -6,6 +6,8 @@ require_once './core/initialize.php';
 
 $mailer = new PHPMailer();
 
+$email_settings = Config::get_instance()->get( 'email_settings' );
+
 $mailer->isSMTP();
 $mailer->Mailer = 'smtp';
 $mailer->SMTPAuth = true;
@@ -19,13 +21,13 @@ $mailer->SMTPSecure = 'tls';
 
     )
 );*/
-$mailer->Host = 'smtp.gmail.com';
-$mailer->Port = 587;
-$mailer->Username = 'luisaommatumona1@gmail.com';
-$mailer->Password = 'ilovehandball1997';
+$mailer->Host = $email_settings['server'];
+$mailer->Port = $email_settings['smtp_port'];
+$mailer->Username = $email_settings['username'];
+$mailer->Password = $email_settings['password'];
 $mailer->isHTML( true );
-$mailer->FromName = 'Luisa P M Matumona';
-$mailer->From = 'luisaommatumona1@gmail.com';
+$mailer->FromName = $email_settings['sender'];
+$mailer->From = $email_settings['username'];
 
 $mailer->addAddress( 'dougiedj@gmail.com', 'Douglas Nhunzvi' );
 $mailer->Subject = 'Test message';

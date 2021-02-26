@@ -21,16 +21,23 @@ $( document ).ready( function () {
                 table.DataTable({
                     "data"          : sales,
                     "destroy"       : true,
-                    "order"         : [ [3, 'desc'] ],
+                    "order"         : [ [5, 'desc'] ],
                     columns         : [
                         { "title"   : "Customer name" },
-                        { "title"   : "Sale reference" },
+                        /*{ "title"   : "Reference" },*/
+                        { "title"   : "Transaction Id" },
                         { "title"   : "Amount" },
-                        { "title"   : "Sale date" }
+                        { "title"   : "Currency" },
+                        { "title"   : "Status" },
+                        { "title"   : "Sale date" },
+
                     ], columns      : [
                         { "data"    : "customer_name" },
-                        { "data"    : "sale_reference" },
+                        /*{ "data"    : "sales_reference" },*/
+                        { 'data'    : "transaction_id" },
                         { "data"    : "amount" },
+                        { "data"    : "currency_used" },
+                        { "data"    : "payment_status" },
                         { "data"    : "sale_date" }
                     ]
                 });

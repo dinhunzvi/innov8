@@ -26,15 +26,17 @@
             $this->_mailer->isSMTP();
             $this->_mailer->Mailer = 'smtp';
             $this->_mailer->SMTPAuth = true;
-            $this->_mailer->SMTPSecure = 'ssl';
-            $this->_mailer->SMTPOptions = array( /** used in cases where server uses self-signed ssl certificate */
+            $this->_mailer->SMTPSecure = 'tls';
+            /*$this->_mailer->SMTPSecure = 'ssl';*/
+            /** used in cases where server uses self-signed ssl certificate
+            $this->_mailer->SMTPOptions = array(
                 'ssl' => array(
                     'verify_peer'       => false,
                     'verify_peer_name'  => false,
                     'allow_self_signed' => false
 
                 )
-            );
+            );*/
             $this->_mailer->Host = $_email_settings['server'];
             $this->_mailer->Port = $_email_settings['smtp_port'];
             $this->_mailer->Username = $_email_settings['username'];

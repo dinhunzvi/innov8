@@ -15,5 +15,11 @@
     require_once VIEWS_DIR . 'header.php';
 ?>
 
+    <section id="profile">
+
+
+
+    </section>
+
 <?php
     require_once VIEWS_DIR . 'footer.php';

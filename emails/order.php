@@ -53,7 +53,7 @@
 
                 <div class="col-md-12">
 
-                    <p>Welcome, <strong><?php echo $data['name']; ?></strong></p>
+                    <p>Hello, <strong><?php echo $data['name']; ?></strong></p>
 
                 </div>
 
@@ -64,19 +64,69 @@
                 <div class="col-md-12">
 
                     <p>
-                        Thank you for your order
+                        Your order confirmation details for order: #<span><?= $data['reference'] ?></span>
                     </p>
 
-                    <p>
-                        Click <a href="http://localhost/innov8/admin/sign_in.php" class="btn-default">
-                            <i class="fas fa-sign-in-alt"></i> here</a> to sign in to the Content Management System. You
-                        are encouraged to change the password immediately. You must use a strong password that you can
-                        easily remember.
-                    </p>
+                </div>
+
+            </div>
+
+            <div class="row table-responsive">
+
+                <div class="col-12">
+
+                    <table class="table table-striped table-hover">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Author</th>
+                                <th>Book title</th>
+                                <th>Price($)</th>
+                                <th>Quantity</th>
+                                <th>Total price</th>
+
+                            </tr>
+
+                        </thead>
+                        <?php
+                            foreach ( $data['order'] as $order_item ) {
+                                ?>
+                                <<tr>
+                                    <td><?= $order_item['author'] ?></td>
+                                    <td><?= $order_item['title'] ?></td>
+                                    <td>$<?= $order_item['price'] ?></td>
+                                    <td><?= $order_item['quantity'] ?></td>
+                                    <td>$<?= $order_item['total'] ?></td>
+                                </tr>
+                                <?php
+                            }
+
+                        ?>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12">
+
+                    <h4>Total amount: $<?= $data['total'] ?></h4>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4">
 
                     <p>
-
-                        Innov8 Bookshop IT Support Team
+                        Thank you for shopping with us.
                     </p>
 
                 </div>

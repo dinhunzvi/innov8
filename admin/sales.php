@@ -41,8 +41,11 @@
                         <tr>
 
                             <th>Customer name</th>
-                            <th>Sale reference</th>
+                            <!--<th>Reference</th>-->
+                            <th>Transaction ID</th>
                             <th>Amount</th>
+                            <th>Currency</th>
+                            <th>Status</th>
                             <th>Sale date</th>
 
                         </tr>

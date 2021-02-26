@@ -114,3 +114,9 @@
 
     });
 
+    $( document ).on( 'click', '#customer_sign_out', function () {
+        if ( confirm( 'Are you sure you want to sign out?' ) ) {
+            localStorage.removeItem( customer_session_name );
+            window.location.href = 'index.php';
+        }
+    });

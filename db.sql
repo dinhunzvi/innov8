@@ -235,3 +235,51 @@ alter table tbl_sales
     add transaction_id varchar( 100 ) unique not null after sales_reference,
     add currency_used varchar( 10 ) not null,
     add payment_status varchar( 255 ) not null;
+
+alter definer = bookseller@localhost view vw_sales as
+select `s`.`sale_id`                                AS `sale_id`,
+       `s`.`sale_date`                              AS `sale_date`,
+       `s`.`sales_reference`                        AS `sales_reference`,
+       format(`s`.`amount`, 2)                      AS `amount`,
+       concat_ws( ' ', `c`.`first_name`, `c`.`last_name`) AS `customer_name`,
+       `s`.`customer`                               AS `customer`,
+       `s`.`transaction_id`                         as `transaction_id`,
+       `s`.`currency_used`                          as `currency_used`,
+       `s`.`payment_status`                         as `payment_status`
+from (`innov8_bookshop`.`tbl_sales` `s`
+         join `innov8_bookshop`.`tbl_customers` `c` on (`s`.`customer` = `c`.`customer_id`));
+
+alter definer = bookseller@localhost view vw_sale_details as
+select `sd`.`sale`                                       AS `sale`,
+       `sd`.`sale_detail_id`                             AS `sale_detail_id`,
+       `sd`.`price`                                      AS `price`,
+       `sd`.`quantity`                                   AS `quantity`,
+       `sd`.`total`                                      AS `total`,
+       `s`.`sales_reference`                             AS `sales_reference`,
+       `c`.`category_name`                               AS `category_name`,
+       `b`.`category`                                    AS `category`,
+       `b`.`book_cover`                                  as `book_cover`,
+       concat_ws(' ', `a`.`first_name`, `a`.`last_name`) AS `author_name`,
+       `sd`.`book`                                       AS `book`,
+       `b`.`book_title`                                  AS `book_title`,
+       `b`.`author`                                      AS `author`
+from ((((`innov8_bookshop`.`tbl_sale_details` `sd` join `innov8_bookshop`.`tbl_sales` `s` on (`sd`.`sale` = `s`.`sale_id`)) join `innov8_bookshop`.`tbl_books` `b` on (`sd`.`book` = `b`.`book_id`)) join `innov8_bookshop`.`tbl_authors` `a` on (`b`.`author` = `a`.`author_id`))
+         join `innov8_bookshop`.`tbl_categories` `c` on (`b`.`category` = `c`.`category_id`));
+
+alter definer = bookseller@localhost view vw_sale_details as
+select `sd`.`sale`                                       AS `sale`,
+       `sd`.`sale_detail_id`                             AS `sale_detail_id`,
+       `sd`.`price`                                      AS `price`,
+       `sd`.`quantity`                                   AS `quantity`,
+       `sd`.`total`                                      AS `total`,
+       `s`.`sales_reference`                             AS `sales_reference`,
+       `c`.`category_name`                               AS `category_name`,
+       `b`.`category`                                    AS `category`,
+       `b`.`book_cover`                                  AS `book_cover`,
+       concat_ws(' ', `a`.`first_name`, `a`.`last_name`) AS `author_name`,
+       `sd`.`book`                                       AS `book`,
+       `b`.`book_title`                                  AS `book_title`,
+       `b`.`author`                                      AS `author`,
+       `s`.sale_date                                     as `sale_date`
+from ((((`innov8_bookshop`.`tbl_sale_details` `sd` join `innov8_bookshop`.`tbl_sales` `s` on (`sd`.`sale` = `s`.`sale_id`)) join `innov8_bookshop`.`tbl_books` `b` on (`sd`.`book` = `b`.`book_id`)) join `innov8_bookshop`.`tbl_authors` `a` on (`b`.`author` = `a`.`author_id`))
+         join `innov8_bookshop`.`tbl_categories` `c` on (`b`.`category` = `c`.`category_id`));
