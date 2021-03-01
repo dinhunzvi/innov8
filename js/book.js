@@ -35,6 +35,10 @@ $( document ).ready( function () {
 
                 show_quantity( book.quantity_in_stock );
 
+                $( '#book_author' ).append( book.author_name );
+
+                get_author_books( book.author );
+
             }, url      : public_url + 'books/' + book_id
         });
 
@@ -94,6 +98,53 @@ $( document ).ready( function () {
 
         return false;
 
+    });
+
+    function get_author_books( author_id ) {
+        $.ajax({
+            dataType    : 'json',
+            error       : function ( xhr, type ) {
+                console.log( xhr, type );
+            }, method   : 'GET',
+            success     : function ( books ) {
+
+                show_author_books( books );
+
+            }, url      : public_url + 'other_author_books/' + book_id + '/' + author_id
+        });
+
+    }
+
+    function show_author_books( author_books ) {
+        let element = $( '#author_books' );
+
+        let author_books_list = '';
+
+        element.children().remove();
+
+        if ( author_books.length > 0 ) {
+            $.each( author_books, function ( index, author_book ) {
+                author_books_list += '<div class="col-md-3"><div class="card book-card"><div class="card-body"><a>' +
+                    '<img src="./book_covers/' + author_book.book_cover + '" alt="' + author_book.book_title + '" id="' +
+                    author_book.book_id + '" /></a><h5>' + author_book.book_title + '</h5><h5 class="book-price">$' +
+                    author_book.price + '</h5><button class="btn btn-default" type="button" id="' + author_book.book_id +
+                    '">View more</button> </div></div> </div>';
+            });
+        } else {
+            author_books_list = '<div class="col-md-3">No other books by author</div>';
+        }
+
+        element.append( author_books_list );
+
+    }
+
+    $( document ).on( 'click', '.btn-default', function () {
+        let book_id = $( this ).attr( "id" );
+        window.location.href = 'book.php?book_id=' + book_id;
+    });
+
+    $( document ).on( 'click', '.book-card img', function () {
+        window.location.href = 'book.php?book_id=' + $( this ).attr( "id" );
     });
 
 });

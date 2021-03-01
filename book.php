@@ -120,7 +120,17 @@
 
         <div class="container">
 
+            <div class="row">
 
+                <div class="col-md-6">
+
+                    <h4>Other books by <span id="book_author"></span></h4>
+
+                </div>
+
+            </div>
+
+            <div class="row" id="author_books"></div>
 
         </div>
 

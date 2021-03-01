@@ -232,3 +232,11 @@
     display: none;
 }
 
+/**
+    books_by_author styles
+ */
+#books_by_author h4 {
+    text-transform: uppercase;
+    margin: 15px 0;
+}
+

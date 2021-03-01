@@ -753,6 +753,17 @@
 
     });
 
+    /* get other books by author using author_id and book_id */
+    $app->get( '/other_author_books/{book_id}/{author_id}', function ( Request $request, Response $response ) {
+        $author_id = $request->getAttribute( 'author_id' );
+        $book_id = $request->getAttribute( 'book_id' );
+
+        $book = new Book();
+
+        return $response->getBody()->write( json_encode( $book->other_author_books( $book_id, $author_id ) ) );
+
+    });
+
     /* get category books using category_id */
     $app->get( '/category_books/{category_id}', function ( Request $request, Response $response ) {
         $category_id = $request->getAttribute( 'category_id' );
@@ -1468,7 +1479,7 @@
                         'name'      => 'Order details for ' . $customer->data()->first_name . ' ' .
                             $customer->data()->last_name,
                     ],
-                    'unit_amount'   => convert_amount_to_cents( $total),
+                    'unit_amount'   => convert_amount_to_cents( $total ),
                 ],
                 'quantity'      => 1
             ]],

@@ -77,6 +77,19 @@
 
         }
 
+        /**
+         * @param int $book_id
+         * @param int $author
+         * @return mixed
+         */
+        public function other_author_books( int $book_id, int $author ) {
+            $this->_where = [ $author, $book_id ];
+            $sql = 'select book_id, book_title, price, book_cover from vw_books where author = ? and book_id <> ?';
+
+            return $this->_db->query( $sql, $this->_where )->results();
+
+        }
+
         public function get_latest_books() {
             $sql = "select book_id, book_title, price, author_name, category_name, book_cover from " .
                 $this->_view_name . " where deleted = 'no' order by date_added desc limit 4";

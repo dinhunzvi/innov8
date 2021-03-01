@@ -12,7 +12,11 @@ $( document ).ready( function () {
             }, method   : 'GET',
             success     : function ( cart_details ) {
 
-                $( '#cart-total' ).append( cart_details.total );
+                let cart_total_display = $( '#cart-total' );
+
+                cart_total_display.children().remove();
+
+                cart_total_display.append( cart_details.total );
 
                 let table = $( '#my_cart' );
 
