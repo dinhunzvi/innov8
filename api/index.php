@@ -1719,7 +1719,7 @@
 
             $data = [
                 'success'   => true,
-                'file'      => $output . '.pdf'
+                'file'      => 'sales_report_' . $report_file.  '.pdf'
             ];
 
         } catch ( Exception $exception ) {

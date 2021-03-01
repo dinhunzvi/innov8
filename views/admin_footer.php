@@ -30,8 +30,7 @@
 
             if ( $pdf_js ) {
                 ?>
-                <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.min.js" crossorigin="anonymous"
-                        integrity="sha256-LcN79UmfecVJ8WEjAgndjZ29b+d2nf4t+FJd6pKrlG0="></script>
+                <script src="./../js/pdf.js" type="text/javascript"></script>
                 <?php
             }
 
