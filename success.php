@@ -4,7 +4,9 @@
     $page_title = 'Payment success';
     $js_file = 'success';
     $stripe = false;
-    $data_tables = false;
+    $data_tables = true;
+    $moment = false;
+    $charts = false;
 
     require_once VIEWS_DIR . 'header.php';
 ?>
@@ -21,9 +23,25 @@
 
            <div class="row" id="order_details">
 
-               <div class="col-md-12 table-responsive">
+               <div class="col-md-12">
 
-                   <tabel class="table table-striped table-hover" id="order_items"></tabel>
+                   <table class="table table-striped table-hover table-responsive-sm" id="order_items">
+
+                       <thead>
+
+                            <tr>
+
+                                <th>Author</th>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+
+                            </tr>
+
+                       </thead>
+
+                   </table>
 
                </div>
 

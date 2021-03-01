@@ -134,9 +134,8 @@
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="sales_report.php">Sales report</a>
                             <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
 
                         </div>
 

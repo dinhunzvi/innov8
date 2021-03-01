@@ -46,6 +46,10 @@
 
                             <h4>Stationery</h4>
 
+                            <p>
+                                Try our range of imported and local stationery products for your office, school and home.
+                            </p>
+
                         </div>
 
                     </div>
@@ -105,7 +109,7 @@
 
                 <div class="col-md-12">
 
-                    <h4 class="page-title">Best sellers</h4>
+                    <h4>Best sellers</h4>
 
                 </div>
 

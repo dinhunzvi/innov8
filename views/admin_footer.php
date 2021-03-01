@@ -25,7 +25,13 @@
                 ?>
                 <!-- chart.js -->
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-                <script src="https://cdn.rawgit.com/emn178/Chart.PieceLabel.js/master/build/Chart.PieceLabel.min.js"></script>
+                <?php
+            }
+
+            if ( $pdf_js ) {
+                ?>
+                <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.min.js" crossorigin="anonymous"
+                        integrity="sha256-LcN79UmfecVJ8WEjAgndjZ29b+d2nf4t+FJd6pKrlG0="></script>
                 <?php
             }
 

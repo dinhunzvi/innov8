@@ -5,13 +5,13 @@
     use Psr\Http\Message\ServerRequestInterface as Request;
     use Psr\Http\Message\ResponseInterface as Response;
     use Slim\App;
-use Stripe\Exception\ApiErrorException;
+    use Stripe\Exception\ApiErrorException;
 
-$cart_session = Config::get_instance()->get( 'cart_session' );
+    $cart_session = Config::get_instance()->get( 'cart_session' );
 
     $app = new App();
 
-    /* routes for user come here */
+    /* routes for users come here */
 
     /* get all users */
     $app->get( '/users', function ( Request $request, Response $response ) {
@@ -162,7 +162,7 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
             if ( $user->sign_in( $username, $password ) ) {
                 $data = [
                     'success'   => true,
-                    'message'   => 'You have successfully signed. Please wait while being redirected.',
+                    'message'   => 'You have successfully signed in. Please wait while being redirected.',
                     'user_id'   => $user->data()->user_id
                 ];
             } else {
@@ -1597,7 +1597,7 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
                         unset( $_SESSION[$cart_session] );
                         $data = [
                             'success'       => true,
-                            'message'       => 'Payment was successful.',
+                            'message'       => 'Payment was successful. Your order details are summarized in the table below.',
                             'order_items'   => $order_items
                         ];
                     } else {
@@ -1637,7 +1637,7 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
        $total = 0.00;
        $copies_sold = 0;
        foreach ( $sale->get_sales() as $_sale ) {
-           $total += $_sale->amount;
+           $total += ( float )$_sale->amount;
        };
 
        $customers = new Customer();
@@ -1674,7 +1674,56 @@ $cart_session = Config::get_instance()->get( 'cart_session' );
 
     });
 
+    /* routes for reports come here */
+    $app->get( '/sales_report', function ( Request $request, Response $response ) {
+        $database_configuration = Config::get_instance()->get( 'database' );
+
+        $options = [
+            'format'        => [ 'pdf' ],
+            'locale'        => 'en',
+            'db_connection' => [
+                'driver'        => 'mysql',
+                'username'      => $database_configuration['username'],
+                'database'      => $database_configuration['database'],
+                'password'      => $database_configuration['password'],
+                'host'          => $database_configuration['server']
+            ]
+        ];
+
+        $input = REPORTS_DIR . 'sales_report.jrxml';
+
+        $jasper = new PHPJasper\PHPJasper();
+
+        try {
+
+            $report_file = strtolower( Hash::random_string( 30 ) );
+
+            $output = REPORTS_DIR . 'sales_report_' . $report_file;
+
+            $jasper->process(
+                $input,
+                $output,
+                $options
+            )->execute();
+
+            $data = [
+                'success'   => true,
+                'file'      => $output . '.pdf'
+            ];
+
+        } catch ( Exception $exception ) {
+            $data = [
+                'success'   => false,
+                'message'   => 'Report could not be rendered: ' . $exception->getMessage()
+            ];
+        }
+
+        return $response->getBody()->write( json_encode( $data ) );
+
+    });
+
     try {
         $app->run();
     } catch (Throwable $e) {
+        echo 'Could not execute ' . $e->getMessage();
     }

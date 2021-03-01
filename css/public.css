@@ -220,6 +220,15 @@
     margin-top: 5px;
 }
 
+/**
+    payment success styles
+ */
+
+#error_message {
+    margin: 10px 0;
+}
+
 #order_details {
     display: none;
 }
+

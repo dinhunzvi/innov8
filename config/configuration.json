@@ -25,9 +25,5 @@
     "server"      : "smtp.live.com",
     "sender"      : "Innov8 Bookshop IT Support",
     "smtp_port"   : 587
-  },
-  "sms_settings"  : {
-    "username"    : "Rejoice",
-    "token"       : "aa56be7abaa299353e3db8d736bb21f2"
   }
 }

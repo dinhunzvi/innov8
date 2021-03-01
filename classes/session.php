@@ -10,7 +10,7 @@
          * @param string $name
          * @return mixed
          */
-        public static function get_session ( $name = "" ) {
+        public static function get_session ( string $name ) {
             return $_SESSION[$name];
         }
 

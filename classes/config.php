@@ -24,7 +24,7 @@
 
         }
 
-        public function get ( $key = null ) {
+        public function get ( string $key ) {
             if ( !isset( $this->_data[$key] ) ) {
                 throw new Exception( "Key {$key} not found." );
             }

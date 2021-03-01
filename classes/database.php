@@ -48,7 +48,8 @@
          * @param array $params
          * @return $this
          */
-        public function query( $sql, $params = array() ) {
+        public function query( $sql, $params = array() ): Database
+        {
             $this->_error = false;
             if ( $this->_query = $this->_database->prepare( $sql ) ) {
                 $x = 1;
@@ -121,7 +122,8 @@
          * @param array $fields
          * @return bool
          */
-        public function insert ( $table, $fields = array() ) {
+        public function insert ( $table, $fields = array() ): bool
+        {
             $keys = array_keys( $fields );
             $values = null;
             $x = 1;
@@ -149,7 +151,8 @@
          * @param array $fields
          * @return bool
          */
-        public function update ( $table, $where = array(), $fields = array() ) {
+        public function update ( $table, $where = array(), $fields = array() ): bool
+        {
             $set = '';  
             $x = 1; 
 

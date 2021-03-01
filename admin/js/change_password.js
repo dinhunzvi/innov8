@@ -1,5 +1,7 @@
 $( document ).ready( function () {
 
+    get_user_details();
+
     $( '#user_password' ).on( 'submit', function () {
         let button = $( '#btnChange' );
         let form_data = {
