@@ -8,7 +8,9 @@
     /** define the base directory, BASE_DIR 
     defined( 'BASE_DIR' ) ? null : define( 'BASE_DIR', 'C:' . DS . 'xampp' . DS . 'htdocs' . DS .
         'innov8' . DS );*/
-    defined( 'BASE_DIR' ) ? null : define( 'BASE_DIR', realpath( __DIR__ . '/../' ) );
+     defined( 'BASE_DIR' ) ? null : define( 'BASE_DIR', realpath( __DIR__ . '/../' ) );
+
+    die( var_dump( BASE_DIR ) );
 
     /* define the book covers directory, BOOK_COVERS_DIR */
     defined( 'BOOK_COVERS_DIR' ) ? null : define( 'BOOK_COVERS_DIR', BASE_DIR . DS . 'book_covers' . DS );
