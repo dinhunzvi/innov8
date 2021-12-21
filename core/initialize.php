@@ -16,22 +16,22 @@
     defined( 'BOOK_COVERS_DIR' ) ? null : define( 'BOOK_COVERS_DIR', BASE_DIR . DS . 'book_covers' . DS );
 
     /* define the classes directory, CLASSES_DIR */
-    defined( 'CLASSES_DIR' ) ? null : define( 'CLASSES_DIR', BASE_DIR . 'classes' . DS );
+    defined( 'CLASSES_DIR' ) ? null : define( 'CLASSES_DIR', BASE_DIR . DS . 'classes' . DS );
 
     /* define the configuration directory, CONFIG_DIR */
-    defined( 'CONFIG_DIR' ) ? null : define( 'CONFIG_DIR', BASE_DIR . 'config' . DS );
+    defined( 'CONFIG_DIR' ) ? null : define( 'CONFIG_DIR', BASE_DIR . DS . 'config' . DS );
 
     /* define the email templates directory, EMAILS_DIR */
-    defined( 'EMAILS_DIR' ) ? null : define( 'EMAILS_DIR', BASE_DIR . 'emails' . DS );
+    defined( 'EMAILS_DIR' ) ? null : define( 'EMAILS_DIR', BASE_DIR . DS . 'emails' . DS );
 
     /*define the reports directory, REPORTS_DIR */
-    defined( 'REPORTS_DIR' ) ? null : define( 'REPORTS_DIR', BASE_DIR . 'reports' . DS );
+    defined( 'REPORTS_DIR' ) ? null : define( 'REPORTS_DIR', BASE_DIR . DS . 'reports' . DS );
 
     /* define the sources directory, SRC_DIR */
-    defined( 'SRC_DIR' ) ? null : define( 'SRC_DIR', BASE_DIR . 'src' . DS );
+    defined( 'SRC_DIR' ) ? null : define( 'SRC_DIR', BASE_DIR . DS . 'src' . DS );
 
     /* define the views directory, VIEWS_DIR */
-    defined( 'VIEWS_DIR' ) ? null : define( 'VIEWS_DIR', BASE_DIR . 'views' . DS );
+    defined( 'VIEWS_DIR' ) ? null : define( 'VIEWS_DIR', BASE_DIR . DS . 'views' . DS );
 
     /* set book cover thumbnails directory, THUMBNAILS_DIR */
     defined( 'THUMBNAILS_DIR' ) ? null : define( 'THUMBNAILS_DIR', BOOK_COVERS_DIR . 'thumbnails' . DS );
