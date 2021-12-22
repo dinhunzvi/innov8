@@ -20,9 +20,9 @@
     "time_cost"     :  4
   },
   "email_settings" : {
-    "username"    : "dinhunzvi@live.com",
-    "password"    : "jivzsusvsvkpdqca",
-    "server"      : "smtp.live.com",
+    "username"    : "kudzysabata@gmail.com",
+    "password"    : "KUMOSAhotel",
+    "server"      : "smtp.gmail.com",
     "sender"      : "Innov8 Bookshop IT Support",
     "smtp_port"   : 587
   }
