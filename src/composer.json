@@ -1,6 +1,6 @@
 {
     "require": {
-        "phpmailer/phpmailer": "^6.2",
+        "phpmailer/phpmailer": "^v6.5.3",
         "geekcom/phpjasper": "^3.3",
         "slim/slim": "3.*",
         "stripe/stripe-php": "^7.69"

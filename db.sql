@@ -144,7 +144,7 @@ alter view vw_books as
     select
         b.book_id, format( b.price, 2 ) price, b.deleted, b.category, c.category_name, b.author, b.date_added,
         b.book_cover, b.book_title, b.synopsis, b.quantity_in_stock, concat_ws( ' ', a.first_name, a.last_name )
-        author_name, concat_ws( ' ', u.first_name, u.last_name ) created_user, b.book_cover
+        author_name, concat_ws( ' ', u.first_name, u.last_name ) created_user
     from
         tbl_books b
     inner join
@@ -236,7 +236,7 @@ alter table tbl_sales
     add currency_used varchar( 10 ) not null,
     add payment_status varchar( 255 ) not null;
 
-alter definer = bookseller@localhost view vw_sales as
+alter view vw_sales as
 select `s`.`sale_id`                                AS `sale_id`,
        `s`.`sale_date`                              AS `sale_date`,
        `s`.`sales_reference`                        AS `sales_reference`,
@@ -246,10 +246,10 @@ select `s`.`sale_id`                                AS `sale_id`,
        `s`.`transaction_id`                         as `transaction_id`,
        `s`.`currency_used`                          as `currency_used`,
        `s`.`payment_status`                         as `payment_status`
-from (`innov8_bookshop`.`tbl_sales` `s`
-         join `innov8_bookshop`.`tbl_customers` `c` on (`s`.`customer` = `c`.`customer_id`));
+from (`tbl_sales` `s`
+         join `tbl_customers` `c` on (`s`.`customer` = `c`.`customer_id`));
 
-alter definer = bookseller@localhost view vw_sale_details as
+alter view vw_sale_details as
 select `sd`.`sale`                                       AS `sale`,
        `sd`.`sale_detail_id`                             AS `sale_detail_id`,
        `sd`.`price`                                      AS `price`,
@@ -263,10 +263,10 @@ select `sd`.`sale`                                       AS `sale`,
        `sd`.`book`                                       AS `book`,
        `b`.`book_title`                                  AS `book_title`,
        `b`.`author`                                      AS `author`
-from ((((`innov8_bookshop`.`tbl_sale_details` `sd` join `innov8_bookshop`.`tbl_sales` `s` on (`sd`.`sale` = `s`.`sale_id`)) join `innov8_bookshop`.`tbl_books` `b` on (`sd`.`book` = `b`.`book_id`)) join `innov8_bookshop`.`tbl_authors` `a` on (`b`.`author` = `a`.`author_id`))
-         join `innov8_bookshop`.`tbl_categories` `c` on (`b`.`category` = `c`.`category_id`));
+from ((((`tbl_sale_details` `sd` join `innov8_bookshop`.`tbl_sales` `s` on (`sd`.`sale` = `s`.`sale_id`)) join `tbl_books` `b` on (`sd`.`book` = `b`.`book_id`)) join `tbl_authors` `a` on (`b`.`author` = `a`.`author_id`))
+         join `tbl_categories` `c` on (`b`.`category` = `c`.`category_id`));
 
-alter definer = bookseller@localhost view vw_sale_details as
+alter view vw_sale_details as
 select `sd`.`sale`                                       AS `sale`,
        `sd`.`sale_detail_id`                             AS `sale_detail_id`,
        `sd`.`price`                                      AS `price`,
@@ -281,5 +281,5 @@ select `sd`.`sale`                                       AS `sale`,
        `b`.`book_title`                                  AS `book_title`,
        `b`.`author`                                      AS `author`,
        `s`.sale_date                                     as `sale_date`
-from ((((`innov8_bookshop`.`tbl_sale_details` `sd` join `innov8_bookshop`.`tbl_sales` `s` on (`sd`.`sale` = `s`.`sale_id`)) join `innov8_bookshop`.`tbl_books` `b` on (`sd`.`book` = `b`.`book_id`)) join `innov8_bookshop`.`tbl_authors` `a` on (`b`.`author` = `a`.`author_id`))
-         join `innov8_bookshop`.`tbl_categories` `c` on (`b`.`category` = `c`.`category_id`));
+from ((((`tbl_sale_details` `sd` join `tbl_sales` `s` on (`sd`.`sale` = `s`.`sale_id`)) join `tbl_books` `b` on (`sd`.`book` = `b`.`book_id`)) join `tbl_authors` `a` on (`b`.`author` = `a`.`author_id`))
+         join `tbl_categories` `c` on (`b`.`category` = `c`.`category_id`));

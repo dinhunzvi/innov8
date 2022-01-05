@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7cf52102-4315-4ae4-9f53-5ae1eb019665" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/initialize.php" beforeDir="false" afterPath="$PROJECT_DIR$/core/initialize.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/composer.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +16,9 @@
   </component>
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/src/composer.json</pharConfigPath>
-    <execution />
+    <execution>
+      <executable path="composer" />
+    </execution>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -67,6 +70,9 @@
       <workItem from="1640202331337" duration="253000" />
       <workItem from="1640202970466" duration="661000" />
       <workItem from="1640203950920" duration="1011000" />
+      <workItem from="1640243406214" duration="46000" />
+      <workItem from="1640266012524" duration="66000" />
+      <workItem from="1641365024264" duration="315000" />
     </task>
     <servers />
   </component>
